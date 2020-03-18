@@ -1,3 +1,10 @@
+import {
+  LOGIN_SUCCESS,
+  LOGIN,
+  LOGIN_FAILURE,
+  LOGIN_INPUT
+} from "./dispatch-types";
+
 export const initialState = {
   username: "",
   password: "",
@@ -5,22 +12,22 @@ export const initialState = {
   error: ""
 };
 
-export const loginReducer = (state = initialState, action) => {
+export function loginReducer(state = initialState, action) {
   switch (action.type) {
-    case "change": {
+    case LOGIN_INPUT: {
       return {
         ...state,
         [action.field]: action.payload
       };
     }
-    case "login": {
+    case LOGIN: {
       return {
         ...state,
         isLoading: true,
         error: ""
       };
     }
-    case "success": {
+    case LOGIN_SUCCESS: {
       return {
         ...state,
         username: "",
@@ -29,7 +36,7 @@ export const loginReducer = (state = initialState, action) => {
         error: ""
       };
     }
-    case "failure": {
+    case LOGIN_FAILURE: {
       return {
         ...state,
         username: "",
@@ -41,4 +48,4 @@ export const loginReducer = (state = initialState, action) => {
     default:
       return state;
   }
-};
+}

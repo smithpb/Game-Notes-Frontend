@@ -1,23 +1,30 @@
 import React from "react";
-import { initialState, loginReducer } from "../../reducer/login-reducer";
+import { useCombinedReducer } from "../../reducer/combine-reducers";
 import { axiosReq } from "../../util/axios/requests";
+import {
+  LOGIN,
+  LOGIN_SUCCESS,
+  LOGIN_FAILURE,
+  LOGIN_INPUT
+} from "../../reducer/dispatch-types";
 
 function Login() {
-  const [state, dispatch] = React.useReducer(loginReducer, initialState);
-  const { username, password, isLoading, error } = state;
+  const [{ login }, dispatch] = useCombinedReducer();
+  const { username, password, isLoading, error } = login;
 
   const handleSubmit = async event => {
     event.preventDefault();
-    dispatch({ type: "login" });
+
+    dispatch({ type: LOGIN });
+
     try {
-      const response = await axiosReq("post", "/auth/login", {
-        username,
-        password
-      });
-      dispatch({ type: "success" });
+      const user = { username, password };
+      const response = await axiosReq("post", "/auth/login", user);
+
+      dispatch({ type: LOGIN_SUCCESS, payload: response.data });
       window.localStorage.setItem("jwt", response.data.token);
     } catch (err) {
-      dispatch({ type: "failure", payload: err.response.data.message });
+      dispatch({ type: LOGIN_FAILURE, payload: err.response.data.message });
     }
   };
 
@@ -32,7 +39,7 @@ function Login() {
           value={username}
           onChange={e =>
             dispatch({
-              type: "change",
+              type: LOGIN_INPUT,
               field: "username",
               payload: e.target.value
             })
@@ -45,7 +52,7 @@ function Login() {
           value={password}
           onChange={e =>
             dispatch({
-              type: "change",
+              type: LOGIN_INPUT,
               field: "password",
               payload: e.target.value
             })
