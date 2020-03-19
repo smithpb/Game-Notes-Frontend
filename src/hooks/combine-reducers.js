@@ -1,6 +1,12 @@
 import { useReducer } from "react";
-import { loginReducer, initialState as loginState } from "./login-reducer";
-import { userReducer, initialState as userState } from "./user-reducer";
+import {
+  loginReducer,
+  initialState as loginState
+} from "../reducer/login-reducer";
+import {
+  userReducer,
+  initialState as userState
+} from "../reducer/user-reducer";
 
 export function combineReducers(reducers) {
   return (state = {}, action) => {
@@ -11,6 +17,11 @@ export function combineReducers(reducers) {
     return newState;
   };
 }
+
+// const combinedState = {
+//   login: loginState,
+//   user: userState
+// };
 
 const combinedState = {
   login: loginState,

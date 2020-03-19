@@ -1,10 +1,19 @@
 import React from "react";
-import Login from "./components/login/Login";
+import ROUTES, { RenderRoutes } from "./routes/routes";
+import { AppContext } from "./contexts/context";
+import { useCombinedReducer } from "./hooks/combine-reducers";
+// import Navbar from "./components/navbar/Navbar";
 
 function App() {
+  const [state, dispatch] = useCombinedReducer();
+
   return (
     <div className="App">
-      <Login />
+      <AppContext.Provider value={{ state, dispatch }}>
+        {/* <Route exact path="/" component={Login} /> */}
+        {/* <Navbar /> */}
+        <RenderRoutes routes={ROUTES} />
+      </AppContext.Provider>
     </div>
   );
 }

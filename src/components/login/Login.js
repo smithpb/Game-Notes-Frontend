@@ -1,5 +1,6 @@
 import React from "react";
-import { useCombinedReducer } from "../../reducer/combine-reducers";
+import { Redirect } from "react-router-dom";
+import { AppContext } from "../../contexts/context";
 import { axiosReq } from "../../util/axios/requests";
 import {
   LOGIN,
@@ -8,8 +9,11 @@ import {
   LOGIN_INPUT
 } from "../../reducer/dispatch-types";
 
-function Login() {
-  const [{ login }, dispatch] = useCombinedReducer();
+function Login({ history }) {
+  const {
+    state: { login },
+    dispatch
+  } = React.useContext(AppContext);
   const { username, password, isLoading, error } = login;
 
   const handleSubmit = async event => {
@@ -22,11 +26,17 @@ function Login() {
       const response = await axiosReq("post", "/auth/login", user);
 
       dispatch({ type: LOGIN_SUCCESS, payload: response.data });
-      window.localStorage.setItem("jwt", response.data.token);
+      localStorage.setItem("jwt", response.data.token);
+      history.push("/app");
     } catch (err) {
+      console.log(err);
       dispatch({ type: LOGIN_FAILURE, payload: err.response.data.message });
     }
   };
+
+  if (window.localStorage.getItem("jwt")) {
+    return <Redirect to={"/app"} />;
+  }
 
   return (
     <div className="login-component">

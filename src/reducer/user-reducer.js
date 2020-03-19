@@ -1,4 +1,4 @@
-import { LOGIN_SUCCESS, LOGIN_FAILURE } from "./dispatch-types";
+import { LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT } from "./dispatch-types";
 
 export const initialState = {
   jwt: "",
@@ -18,6 +18,10 @@ export function userReducer(state = initialState, action) {
     case LOGIN_FAILURE:
       return {
         ...state,
+        ...initialState
+      };
+    case LOGOUT:
+      return {
         ...initialState
       };
     default:
