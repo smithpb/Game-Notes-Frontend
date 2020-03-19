@@ -6,6 +6,7 @@ export const axiosReq = async (method = "get", endpoint, data = {}) => {
   return await axios({
     method,
     url: `${api}${endpoint}`,
-    data
+    data,
+    headers: { Authorization: localStorage.getItem("jwt") || "" }
   });
 };

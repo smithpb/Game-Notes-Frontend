@@ -2,7 +2,7 @@ import React from "react";
 import ROUTES, { RenderRoutes } from "./routes/routes";
 import { AppContext } from "./contexts/context";
 import { useCombinedReducer } from "./hooks/combine-reducers";
-// import Navbar from "./components/navbar/Navbar";
+import Navbar from "./components/navbar/Navbar";
 
 function App() {
   const [state, dispatch] = useCombinedReducer();
@@ -10,8 +10,7 @@ function App() {
   return (
     <div className="App">
       <AppContext.Provider value={{ state, dispatch }}>
-        {/* <Route exact path="/" component={Login} /> */}
-        {/* <Navbar /> */}
+        <Navbar />
         <RenderRoutes routes={ROUTES} />
       </AppContext.Provider>
     </div>

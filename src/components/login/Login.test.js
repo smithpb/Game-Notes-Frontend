@@ -35,10 +35,10 @@ const setup = (state = {}) => {
   return mount(<Login />);
 };
 
-describe.skip("<Login />", () => {
+describe("<Login />", () => {
   let wrapper;
   beforeEach(() => {
-    wrapper = shallow(<Login />);
+    wrapper = setup();
   });
   test("should render without error", () => {
     const component = wrapper.find(".login-component");
