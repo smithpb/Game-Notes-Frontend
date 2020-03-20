@@ -3,11 +3,11 @@ import { AppContext } from "../../contexts/context";
 
 function CampaignList() {
   const { state } = React.useContext(AppContext);
-  const { list } = state.campaigns;
+  const { rawList } = state.campaigns;
 
   return (
     <div className="campaign-list-container">
-      {list.map(campaign => (
+      {rawList.map(campaign => (
         <div key={campaign.id} className="camp-container">
           {campaign.name}
         </div>

@@ -13,10 +13,21 @@ export const axiosReq = async (method = "get", endpoint, data = {}) => {
 };
 
 export const fetchAllData = async dispatch => {
+  const endpoints = [
+    "campaigns",
+    "kingdoms",
+    "locations",
+    "characters",
+    "notes"
+  ];
+  const requests = endpoints.map(endpoint => axiosReq("get", `/${endpoint}`));
+
   try {
-    const [campaigns] = await axios.all([axiosReq("get", "/campaigns")]);
-    const fullPayload = { campaigns };
-    console.log(campaigns);
+    const [campaigns, kingdoms, locations, characters, notes] = await axios.all(
+      requests
+    );
+    const fullPayload = { campaigns, kingdoms, locations, characters, notes };
+
     dispatch({ type: FETCH_SUCCESS, payload: fullPayload });
   } catch (e) {
     console.log(e.response);

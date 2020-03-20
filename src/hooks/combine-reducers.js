@@ -11,6 +11,22 @@ import {
   campaignReducer,
   initialState as campState
 } from "../reducer/campaign-reducer";
+import {
+  kingdomReducer,
+  initialState as kingState
+} from "../reducer/kingdom-reducer";
+import {
+  locationReducer,
+  initialState as locState
+} from "../reducer/location-reducer";
+import {
+  characterReducer,
+  initialState as charState
+} from "../reducer/character-reducer";
+import {
+  noteReducer,
+  initialState as noteState
+} from "../reducer/note-reducer";
 
 export function combineReducers(reducers) {
   return (state = {}, action) => {
@@ -25,7 +41,11 @@ export function combineReducers(reducers) {
 const combinedState = {
   login: loginState,
   user: userState,
-  campaigns: campState
+  campaigns: campState,
+  kingdoms: kingState,
+  locations: locState,
+  characters: charState,
+  notes: noteState
 };
 
 export function useCombinedReducer() {
@@ -33,7 +53,11 @@ export function useCombinedReducer() {
     combineReducers({
       login: loginReducer,
       user: userReducer,
-      campaigns: campaignReducer
+      campaigns: campaignReducer,
+      kingdoms: kingdomReducer,
+      locations: locationReducer,
+      characters: characterReducer,
+      notes: noteReducer
     }),
     combinedState
   );

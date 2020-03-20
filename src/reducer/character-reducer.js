@@ -4,13 +4,13 @@ export const initialState = {
   rawList: []
 };
 
-export function campaignReducer(state = initialState, action) {
+export function characterReducer(state = initialState, action) {
   switch (action.type) {
     case FETCH_SUCCESS:
-      const { campaigns } = action.payload;
+      const { characters } = action.payload;
       return {
         ...state,
-        rawList: campaigns.data
+        rawList: characters.data
       };
     default:
       return state;
