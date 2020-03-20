@@ -29,7 +29,7 @@ function Login({ history }) {
       localStorage.setItem("jwt", response.data.token);
       history.push("/app");
     } catch (err) {
-      console.log(err);
+      console.log(err.response);
       dispatch({ type: LOGIN_FAILURE, payload: err.response.data.message });
     }
   };

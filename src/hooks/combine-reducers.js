@@ -7,6 +7,10 @@ import {
   userReducer,
   initialState as userState
 } from "../reducer/user-reducer";
+import {
+  campaignReducer,
+  initialState as campState
+} from "../reducer/campaign-reducer";
 
 export function combineReducers(reducers) {
   return (state = {}, action) => {
@@ -18,21 +22,18 @@ export function combineReducers(reducers) {
   };
 }
 
-// const combinedState = {
-//   login: loginState,
-//   user: userState
-// };
-
 const combinedState = {
   login: loginState,
-  user: userState
+  user: userState,
+  campaigns: campState
 };
 
 export function useCombinedReducer() {
   const [state, dispatch] = useReducer(
     combineReducers({
       login: loginReducer,
-      user: userReducer
+      user: userReducer,
+      campaigns: campaignReducer
     }),
     combinedState
   );

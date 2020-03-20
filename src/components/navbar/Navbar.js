@@ -1,7 +1,7 @@
 import React from "react";
 import { AppContext } from "../../contexts/context";
 import { LOGOUT } from "../../reducer/dispatch-types";
-import { Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function Navbar({ history }) {
   const { state, dispatch } = React.useContext(AppContext);
@@ -21,9 +21,9 @@ function Navbar({ history }) {
       );
     }
     return (
-      <div className="login-button" onClick={() => <Redirect to={"/login"} />}>
+      <Link to={"/login"} className="login-button">
         Login
-      </div>
+      </Link>
     );
   };
 

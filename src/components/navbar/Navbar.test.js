@@ -36,7 +36,7 @@ describe("Logout button", () => {
     const logoutBtn = wrapper.find(".logout-button");
     expect(logoutBtn.length).toBe(1);
   });
-  test("it should render the login button when isLogginIn is false", () => {
+  test.skip("it should render the login button when isLogginIn is false", () => {
     const wrapper = setup({ user: { isLoggedIn: false } });
     const loginBtn = wrapper.find(".login-button");
     expect(loginBtn.length).toBe(1);
