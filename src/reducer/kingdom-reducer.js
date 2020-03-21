@@ -1,7 +1,9 @@
-import { FETCH_SUCCESS } from "./dispatch-types";
+import { FETCH_SUCCESS, CAMPAIGN_SORT } from "./dispatch-types";
+import { filterByCampaign } from "../util/misc";
 
 export const initialState = {
-  rawList: []
+  rawList: [],
+  campaignList: []
 };
 
 export function kingdomReducer(state = initialState, action) {
@@ -11,6 +13,11 @@ export function kingdomReducer(state = initialState, action) {
       return {
         ...state,
         rawList: kingdoms.data
+      };
+    case CAMPAIGN_SORT:
+      return {
+        ...state,
+        campaignList: filterByCampaign(state.rawList, action.payload)
       };
     default:
       return state;

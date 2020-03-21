@@ -1,8 +1,9 @@
 import {
   LOGIN_SUCCESS,
-  LOGIN,
+  LOADING,
   LOGIN_FAILURE,
-  LOGIN_INPUT
+  LOGIN_INPUT,
+  FETCH_SUCCESS
 } from "./dispatch-types";
 
 export const initialState = {
@@ -20,7 +21,7 @@ export function loginReducer(state = initialState, action) {
         [action.field]: action.payload
       };
     }
-    case LOGIN: {
+    case LOADING: {
       return {
         ...state,
         isLoading: true,
@@ -45,6 +46,11 @@ export function loginReducer(state = initialState, action) {
         error: action.payload
       };
     }
+    case FETCH_SUCCESS:
+      return {
+        ...state,
+        isLoading: false
+      };
     default:
       return state;
   }

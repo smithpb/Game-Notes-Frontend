@@ -38,7 +38,7 @@ export function combineReducers(reducers) {
   };
 }
 
-const combinedState = {
+export const combinedState = {
   login: loginState,
   user: userState,
   campaigns: campState,

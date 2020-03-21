@@ -3,7 +3,7 @@ import { Redirect } from "react-router-dom";
 import { AppContext } from "../../contexts/context";
 import { axiosReq } from "../../util/axios/requests";
 import {
-  LOGIN,
+  LOADING,
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
   LOGIN_INPUT
@@ -19,7 +19,7 @@ function Login({ history }) {
   const handleSubmit = async event => {
     event.preventDefault();
 
-    dispatch({ type: LOGIN });
+    dispatch({ type: LOADING });
 
     try {
       const user = { username, password };
