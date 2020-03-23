@@ -5,16 +5,17 @@ import { axiosReq } from "../../util/axios/requests";
 import {
   LOADING,
   LOGIN_SUCCESS,
-  LOGIN_FAILURE,
-  LOGIN_INPUT
+  LOGIN_FAILURE
 } from "../../reducer/dispatch-types";
 
 function Login({ history }) {
+  const [username, setUsername] = React.useState("");
+  const [password, setPassword] = React.useState("");
   const {
     state: { login },
     dispatch
   } = React.useContext(AppContext);
-  const { username, password, isLoading, error } = login;
+  const { isLoading, error } = login;
 
   const handleSubmit = async event => {
     event.preventDefault();
@@ -48,26 +49,14 @@ function Login({ history }) {
           name="username"
           placeholder="Enter username..."
           value={username}
-          onChange={e =>
-            dispatch({
-              type: LOGIN_INPUT,
-              field: "username",
-              payload: e.target.value
-            })
-          }
+          onChange={e => setUsername(e.target.value)}
         ></input>
         <input
           type="password"
           name="password"
           placeholder="Enter password..."
           value={password}
-          onChange={e =>
-            dispatch({
-              type: LOGIN_INPUT,
-              field: "password",
-              payload: e.target.value
-            })
-          }
+          onChange={e => setPassword(e.target.value)}
         ></input>
         <button id="login-submit" disabled={isLoading}>
           {isLoading ? "Loading..." : "Submit"}

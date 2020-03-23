@@ -1,5 +1,6 @@
 import React from "react";
-import { render, cleanup } from "../../util/tests/test-utils";
+import "@testing-library/jest-dom";
+import { render, cleanup } from "../../../util/tests/test-utils";
 import CampaignList from "./CampaignList";
 
 afterEach(cleanup);
@@ -32,5 +33,6 @@ describe("CampaignList component", () => {
     const list = getAllByTestId("campaign-list-item");
     // console.log(list.children.length);
     expect(list.length).toBe(3);
+    expect(list[2].textContent).toMatch(/3/i);
   });
 });

@@ -3,9 +3,12 @@ import { render } from "@testing-library/react";
 import { AppContext } from "../../contexts/context";
 import { combinedState } from "../../hooks/combine-reducers";
 
-function customRender(ui, { state = combinedState, ...options } = {}) {
+function customRender(
+  ui,
+  { state = combinedState, dispatch, ...options } = {}
+) {
   const updated = { ...combinedState, ...state };
-  const store = { state: updated };
+  const store = { state: updated, dispatch };
   function Wrapper(props) {
     return <AppContext.Provider value={store} {...props} />;
   }

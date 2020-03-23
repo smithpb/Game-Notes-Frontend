@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import Login from "../components/login/Login";
-import CampaignList from "../components/campaigns/CampaignList";
+import CampaignList from "../components/campaigns/list/CampaignList";
 
 const ROUTES = [
   { path: "/login", exact: true, key: "LOGIN", component: Login },
