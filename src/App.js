@@ -4,7 +4,7 @@ import { AppContext } from "./contexts/context";
 import { useCombinedReducer } from "./hooks/combine-reducers";
 import Navbar from "./components/navbar/Navbar";
 import { fetchAllData, axiosReq } from "./util/axios/requests";
-import { LOGIN_SUCCESS, LOGIN_FAILURE } from "./reducer/dispatch-types";
+import { LOGIN_SUCCESS, FAILURE } from "./reducer/dispatch-types";
 
 function App() {
   const [state, dispatch] = useCombinedReducer();
@@ -20,7 +20,7 @@ function App() {
           dispatch({ type: LOGIN_SUCCESS, payload });
         })
         .catch(() =>
-          dispatch({ type: LOGIN_FAILURE, payload: "Token has expired." })
+          dispatch({ type: FAILURE, payload: "Token has expired." })
         );
     }
   }, []);

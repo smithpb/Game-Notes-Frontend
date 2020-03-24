@@ -2,20 +2,16 @@ import React from "react";
 import { Redirect } from "react-router-dom";
 import { AppContext } from "../../contexts/context";
 import { axiosReq } from "../../util/axios/requests";
-import {
-  LOADING,
-  LOGIN_SUCCESS,
-  LOGIN_FAILURE
-} from "../../reducer/dispatch-types";
+import { LOADING, LOGIN_SUCCESS, FAILURE } from "../../reducer/dispatch-types";
 
 function Login({ history }) {
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const {
-    state: { login },
+    state: { appState },
     dispatch
   } = React.useContext(AppContext);
-  const { isLoading, error } = login;
+  const { isLoading, error } = appState;
 
   const handleSubmit = async event => {
     event.preventDefault();
@@ -32,8 +28,10 @@ function Login({ history }) {
       history.push("/app");
     } catch (err) {
       console.log(err.response);
-      dispatch({ type: LOGIN_FAILURE, payload: err.response.data.message });
+      dispatch({ type: FAILURE, payload: err.response.data.message });
     }
+    setPassword("");
+    setUsername("");
   };
 
   if (window.localStorage.getItem("jwt")) {

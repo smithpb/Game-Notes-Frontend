@@ -31,7 +31,6 @@ describe("CampaignList component", () => {
     };
     const { getAllByTestId } = render(<CampaignList />, { state: custState });
     const list = getAllByTestId("campaign-list-item");
-    // console.log(list.children.length);
     expect(list.length).toBe(3);
     expect(list[2].textContent).toMatch(/3/i);
   });

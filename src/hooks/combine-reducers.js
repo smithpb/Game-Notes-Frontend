@@ -1,8 +1,8 @@
 import { useReducer } from "react";
 import {
-  loginReducer,
-  initialState as loginState
-} from "../reducer/login-reducer";
+  appStateReducer,
+  initialState as appState
+} from "../reducer/appState-reducer";
 import {
   userReducer,
   initialState as userState
@@ -39,7 +39,7 @@ export function combineReducers(reducers) {
 }
 
 export const combinedState = {
-  login: loginState,
+  appState: appState,
   user: userState,
   campaigns: campState,
   kingdoms: kingState,
@@ -51,7 +51,7 @@ export const combinedState = {
 export function useCombinedReducer() {
   const [state, dispatch] = useReducer(
     combineReducers({
-      login: loginReducer,
+      appState: appStateReducer,
       user: userReducer,
       campaigns: campaignReducer,
       kingdoms: kingdomReducer,
