@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Container } from "../../styles/body";
 
 export const LoginContainer = styled(Container).attrs({
-  className: "login-component"
+  "data-testid": "login-component"
 })`
   width: 100%;
   height: 100%;

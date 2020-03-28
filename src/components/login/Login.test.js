@@ -1,13 +1,11 @@
 import React from "react";
-import { mount, shallow } from "enzyme";
-import { LOGIN_INPUT } from "../../reducer/dispatch-types";
+import { render, fireEvent, cleanup } from "../../util/tests/test-utils";
+import "@testing-library/jest-dom/extend-expect";
 import Login from "./Login";
 import moxios from "moxios";
 
 const initialState = {
-  login: {
-    username: "",
-    password: "",
+  appState: {
     isLoading: false,
     error: ""
   }
@@ -21,92 +19,76 @@ const mockDispatch = jest.fn();
  * @param {object} state - State information that will be specific to each test
  * @returns {ReactWrapper}
  */
-const setup = (state = {}) => {
-  // Resets the jest.fn() to prevent overlaps between tests
-  mockDispatch.mockClear();
-  const newState = { ...initialState, ...state };
-
-  // Replace the React hook with mock test versions
-  const mockUseContext = jest
-    .fn()
-    .mockReturnValue({ state: newState, dispatch: mockDispatch });
-  React.useContext = mockUseContext;
-
-  return mount(<Login />);
+const setup = (testState = {}) => {
+  const store = {
+    state: { appState: { ...initialState.appState, ...testState } },
+    dispatch: mockDispatch
+  };
+  return render(<Login />, store);
 };
 
-describe.skip("<Login />", () => {
+afterEach(cleanup);
+
+describe("<Login />", () => {
   let wrapper;
   beforeEach(() => {
     wrapper = setup();
   });
+
   test("should render without error", () => {
-    const component = wrapper.find(".login-component");
-    expect(component.length).toBe(1);
+    const component = wrapper.getByTestId("login-component");
+    expect(component).toBeTruthy();
   });
 
   test("should contain an input for username", () => {
-    const userInput = wrapper.find('input[name="username"]');
-    expect(userInput.length).toBe(1);
+    const userInput = wrapper.getByLabelText(/username/i);
+    expect(userInput).toBeTruthy();
   });
   test("should contain an input for password", () => {
-    const passwordInput = wrapper.find('input[name="password"]');
-    expect(passwordInput.length).toBe(1);
+    const passwordInput = wrapper.getByLabelText(/password/i);
+    expect(passwordInput).toBeTruthy();
   });
   test("should contain a submit button", () => {
-    const submitBtn = wrapper.find("#login-submit");
-    expect(submitBtn.length).toBe(1);
+    const submitBtn = wrapper.getByText(/submit/i);
+    expect(submitBtn).toBeTruthy();
   });
 });
 
-describe.skip("input fields", () => {
-  let mockSetState = jest.fn();
+describe("input fields", () => {
   let wrapper;
 
   beforeEach(() => {
-    mockSetState.mockClear();
     wrapper = setup();
   });
 
   test("that username state updates to match input value", () => {
-    const usernameInput = wrapper.find('input[name="username"]');
-    const mockEvent = { target: { value: "testuser" } };
-    usernameInput.simulate("change", mockEvent);
-
-    expect(usernameInput.props().value).toBe("testuser");
+    const userInput = wrapper.getByLabelText(/username/i);
+    fireEvent.change(userInput, { target: { value: "John" } });
+    expect(userInput.value).toMatch(/john/i);
   });
   test("that password state updates to match input value", () => {
-    const passwordInput = wrapper.find('input[name="password"]');
-    const mockEvent = { target: { value: "test123" } };
-    passwordInput.simulate("change", mockEvent);
-
-    const testDispatch = {
-      type: LOGIN_INPUT,
-      payload: "test123",
-      field: "password"
-    };
-    expect(mockDispatch).toHaveBeenCalledWith(testDispatch);
+    const passwordInput = wrapper.getByLabelText(/password/i);
+    fireEvent.change(passwordInput, { target: { value: "12345" } });
+    expect(passwordInput.value).toMatch(/12345/i);
   });
 });
 
-describe.skip("Component States", () => {
-  let wrapper;
-
+describe("Component States", () => {
   // Error State
   test("error message should display when error state is set to true", () => {
-    wrapper = setup({ login: { error: "Something went wrong" } });
-    const errorMsg = wrapper.find(".error-message");
+    const { getByText } = setup({ error: "Something went wrong" });
+    const errorMsg = getByText(/something went wrong/i);
 
-    expect(errorMsg.text()).toBe("Something went wrong");
+    expect(errorMsg).toBeTruthy();
   });
 
   // Loading State
   test('Submit button should be disabled and read "Loading..." when loading state is true', () => {
-    wrapper = setup({ login: { isLoading: true } });
-    const loginBtn = wrapper.find("#login-submit");
+    const { getByText } = setup({ isLoading: true });
+    const loginBtn = getByText(/loading.../i);
 
-    expect(loginBtn.props().disabled).toBe(true);
-    expect(loginBtn.text()).toBe("Loading...");
+    expect(loginBtn).toBeDisabled();
+    expect(loginBtn).toHaveTextContent("Loading...");
   });
 });
 
