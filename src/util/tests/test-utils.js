@@ -1,5 +1,6 @@
 import React from "react";
 import { render } from "@testing-library/react";
+import { BrowserRouter as Router } from "react-router-dom";
 import { AppContext } from "../../contexts/context";
 import { combinedState } from "../../hooks/combine-reducers";
 
@@ -10,7 +11,11 @@ function customRender(
   const updated = { ...combinedState, ...state };
   const store = { state: updated, dispatch };
   function Wrapper(props) {
-    return <AppContext.Provider value={store} {...props} />;
+    return (
+      <Router>
+        <AppContext.Provider value={store} {...props} />;
+      </Router>
+    );
   }
 
   return render(ui, { wrapper: Wrapper, ...options });

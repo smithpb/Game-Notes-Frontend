@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { AppContext } from "../../../contexts/context";
 import CampaignItem from "../item/CampaignItem";
 import CampaignForm from "../form/CampaignForm";
+import { CampListContainer } from "./styled";
 
 function CampaignList() {
   const { state } = React.useContext(AppContext);
@@ -19,7 +20,7 @@ function CampaignList() {
   }
 
   return (
-    <div data-testid="campaign-list-component">
+    <CampListContainer>
       {list}
       <button
         onClick={() => setCreate(true)}
@@ -29,7 +30,7 @@ function CampaignList() {
         Start a new Campaign
       </button>
       {create && <CampaignForm working={setCreate} />}
-    </div>
+    </CampListContainer>
   );
 }
 

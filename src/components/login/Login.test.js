@@ -35,7 +35,7 @@ const setup = (state = {}) => {
   return mount(<Login />);
 };
 
-describe("<Login />", () => {
+describe.skip("<Login />", () => {
   let wrapper;
   beforeEach(() => {
     wrapper = setup();
@@ -89,7 +89,7 @@ describe.skip("input fields", () => {
   });
 });
 
-describe("Component States", () => {
+describe.skip("Component States", () => {
   let wrapper;
 
   // Error State
@@ -110,7 +110,7 @@ describe("Component States", () => {
   });
 });
 
-describe("HTTP requests", () => {
+describe.skip("HTTP requests", () => {
   let wrapper;
   beforeEach(() => {
     moxios.install();

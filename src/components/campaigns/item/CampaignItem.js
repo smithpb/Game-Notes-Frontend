@@ -6,6 +6,7 @@ import {
   CAMPAIGN_DELETE
 } from "../../../reducer/dispatch-types";
 import CampaignForm from "../form/CampaignForm";
+import { Campaign } from "./styled";
 import { axiosReq } from "../../../util/axios/requests";
 
 function CampaignItem({ campaign }) {
@@ -31,17 +32,15 @@ function CampaignItem({ campaign }) {
   }
 
   return (
-    <div
-      key={id}
-      data-testid="campaign-list-item"
-      onClick={() => selectCampaign(id)}
-    >
+    <Campaign onClick={() => selectCampaign(id)}>
       <h2>{name}</h2>
-      <span onClick={deleteItem}>X</span>
-      <p>{DM}</p>
+      <p>Run by: {DM}</p>
       <p>{description}</p>
-      <p onClick={() => setEdit(true)}>Edit</p>
-    </div>
+      <div className="camp-controls">
+        <p onClick={() => setEdit(true)}>Edit</p>
+        <span onClick={deleteItem}>X</span>
+      </div>
+    </Campaign>
   );
 }
 

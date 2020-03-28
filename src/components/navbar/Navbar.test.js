@@ -1,44 +1,58 @@
 import React from "react";
-import { shallow, mount } from "enzyme";
+import { render, cleanup, fireEvent } from "../../util/tests/test-utils";
 import Navbar from "./Navbar";
 
 const initialState = {
   user: {
+    username: "",
     isLoggedIn: false
   }
 };
 
 const mockDispatch = jest.fn();
 
-const setup = (state = {}) => {
-  // Resets the jest.fn() to prevent overlaps between tests
-  mockDispatch.mockClear();
-  const newState = { ...initialState, ...state };
-
-  // Replace the React hook with mock test versions
-  const mockUseContext = jest
-    .fn()
-    .mockReturnValue({ state: newState, dispatch: mockDispatch });
-  React.useContext = mockUseContext;
-
-  return mount(<Navbar />);
+const setup = (testState = {}) => {
+  const store = {
+    state: { user: { ...initialState.user, ...testState } },
+    dispatch: mockDispatch
+  };
+  return render(<Navbar />, store);
 };
 
-test.skip("it should render without crashing", () => {
-  const wrapper = shallow(<Navbar />);
-  const component = wrapper.find(".navbar-container");
-  expect(component.length).toBe(1);
-});
+afterEach(cleanup);
 
-describe("Logout button", () => {
-  test("it should render the logout button when isLogginIn is true", () => {
-    const wrapper = setup({ user: { isLoggedIn: true } });
-    const logoutBtn = wrapper.find(".logout-button");
-    expect(logoutBtn.length).toBe(1);
+describe("<NavBar /> component", () => {
+  beforeEach(() => {
+    mockDispatch.mockClear();
   });
-  test.skip("it should render the login button when isLogginIn is false", () => {
-    const wrapper = setup({ user: { isLoggedIn: false } });
-    const loginBtn = wrapper.find(".login-button");
-    expect(loginBtn.length).toBe(1);
+  test("it should render withtout crashing", () => {
+    const { getByTestId } = setup();
+    const component = getByTestId("navbar-component");
+    expect(component).toBeTruthy();
+  });
+
+  test("it should render the user's name", () => {
+    const { getByText } = setup({ username: "John" });
+    const user = getByText(/john/i);
+    expect(user).toBeTruthy();
+  });
+
+  test("it should render a logout button when logged in (isLogggedIn = true)", () => {
+    const { getByText } = setup({ isLoggedIn: true });
+    const logoutBtn = getByText(/logout/i);
+    expect(logoutBtn).toBeTruthy();
+  });
+
+  test("it should render a login link when not logged in (isLogggedIn = false)", () => {
+    const { getByText } = setup({ isLoggedIn: false });
+    const logoutBtn = getByText(/login/i);
+    expect(logoutBtn).toBeTruthy();
+  });
+
+  test("dispatch should be called when logout is clicked", () => {
+    const { getByText } = setup({ isLoggedIn: true });
+    const logoutBtn = getByText(/logout/i);
+    fireEvent.click(logoutBtn);
+    expect(mockDispatch).toHaveBeenCalled();
   });
 });

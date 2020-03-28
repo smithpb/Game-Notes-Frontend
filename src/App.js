@@ -1,4 +1,6 @@
 import React, { useEffect } from "react";
+// import "./App.css";
+import { GlobalStyle } from "./styles/body";
 import ROUTES, { RenderRoutes } from "./routes/routes";
 import { AppContext } from "./contexts/context";
 import { useCombinedReducer } from "./hooks/combine-reducers";
@@ -35,6 +37,7 @@ function App() {
   return (
     <div className="App">
       <AppContext.Provider value={{ state, dispatch }}>
+        <GlobalStyle />
         <Navbar />
         <RenderRoutes routes={ROUTES} />
       </AppContext.Provider>

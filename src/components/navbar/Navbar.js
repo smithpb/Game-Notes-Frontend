@@ -2,6 +2,7 @@ import React from "react";
 import { AppContext } from "../../contexts/context";
 import { LOGOUT } from "../../reducer/dispatch-types";
 import { Link } from "react-router-dom";
+import { NavBar } from "./styled";
 
 function Navbar({ history }) {
   const { state, dispatch } = React.useContext(AppContext);
@@ -15,23 +16,23 @@ function Navbar({ history }) {
   const logButton = () => {
     if (user.isLoggedIn) {
       return (
-        <div className="logout-button" onClick={logout}>
+        <div className="log-button" onClick={logout}>
           Logout
         </div>
       );
     }
     return (
-      <Link to={"/login"} className="login-button">
+      <Link to={"/login"} className="log-button">
         Login
       </Link>
     );
   };
 
   return (
-    <div className="navbar-container">
+    <NavBar>
       <p>{user.username}</p>
       {logButton()}
-    </div>
+    </NavBar>
   );
 }
 
