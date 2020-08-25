@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
 // import "./App.css";
 import { GlobalStyle } from "./styles/body";
+import { ThemeProvider } from "styled-components";
+import theme from "./styles/themes";
 import ROUTES, { RenderRoutes } from "./routes/routes";
 import { AppContext } from "./contexts/context";
 import { useCombinedReducer } from "./hooks/combine-reducers";
-import Navbar from "./components/navbar/Navbar";
 import { fetchAllData, axiosReq } from "./util/axios/requests";
 import { LOGIN_SUCCESS, FAILURE } from "./reducer/dispatch-types";
 
@@ -14,15 +15,11 @@ function App() {
   useEffect(() => {
     if (localStorage.getItem("jwt") && !state.user.isLoggedIn) {
       axiosReq("get", "/auth/verify")
-        .then(response => {
-          const payload = {
-            token: localStorage.getItem("jwt"),
-            user: response.data
-          };
-          dispatch({ type: LOGIN_SUCCESS, payload });
+        .then((response) => {
+          dispatch({ type: LOGIN_SUCCESS, payload: response.data });
         })
-        .catch(() =>
-          dispatch({ type: FAILURE, payload: "Token has expired." })
+        .catch((err) =>
+          dispatch({ type: FAILURE, payload: err.response.data.message })
         );
     }
   }, []);
@@ -37,9 +34,11 @@ function App() {
   return (
     <div className="App">
       <AppContext.Provider value={{ state, dispatch }}>
-        <GlobalStyle />
-        <Navbar />
-        <RenderRoutes routes={ROUTES} />
+        <ThemeProvider theme={theme[state.appState.theme]}>
+          <GlobalStyle />
+          {/* <Navbar /> */}
+          <RenderRoutes routes={ROUTES} />
+        </ThemeProvider>
       </AppContext.Provider>
     </div>
   );

@@ -4,6 +4,9 @@ export const FAILURE = "FAILURE";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGOUT = "LOGOUT";
 
+// App settings
+export const CHANGE_THEME = "CHANGE_THEME";
+
 //Types to manage fetching data
 export const FETCH_SUCCESS = "FETCH_SUCCESS";
 

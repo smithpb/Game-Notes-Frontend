@@ -3,12 +3,14 @@ import {
   LOADING,
   FETCH_SUCCESS,
   FAILURE,
-  CAMPAIGN_ADD_SUCCESS
+  CAMPAIGN_ADD_SUCCESS,
+  CHANGE_THEME,
 } from "./dispatch-types";
 
 export const initialState = {
   isLoading: false,
-  error: ""
+  error: "",
+  theme: "green",
 };
 
 export function appStateReducer(state = initialState, action) {
@@ -17,7 +19,7 @@ export function appStateReducer(state = initialState, action) {
       return {
         ...state,
         isLoading: true,
-        error: ""
+        error: "",
       };
     case FETCH_SUCCESS:
     case CAMPAIGN_ADD_SUCCESS:
@@ -25,15 +27,19 @@ export function appStateReducer(state = initialState, action) {
       return {
         ...state,
         isLoading: false,
-        error: ""
+        error: "",
       };
     case FAILURE:
       return {
         ...state,
         isLoading: false,
-        error: action.payload
+        error: action.payload,
       };
-
+    case CHANGE_THEME:
+      return {
+        ...state,
+        theme: action.theme,
+      };
     default:
       return state;
   }

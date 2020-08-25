@@ -1,20 +1,25 @@
 import React from "react";
-import { Redirect } from "react-router-dom";
 import { AppContext } from "../../contexts/context";
 import { axiosReq } from "../../util/axios/requests";
-import { LOADING, LOGIN_SUCCESS, FAILURE } from "../../reducer/dispatch-types";
+import {
+  LOADING,
+  LOGIN_SUCCESS,
+  FAILURE,
+  // CHANGE_THEME,
+} from "../../reducer/dispatch-types";
 import { LoginContainer } from "./styled";
+import { MainButton } from "../../styles";
 
 function Login({ history }) {
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const {
     state: { appState },
-    dispatch
+    dispatch,
   } = React.useContext(AppContext);
   const { isLoading, error } = appState;
 
-  const handleSubmit = async event => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     dispatch({ type: LOADING });
@@ -35,39 +40,44 @@ function Login({ history }) {
     setUsername("");
   };
 
-  if (window.localStorage.getItem("jwt")) {
-    return <Redirect to={"/app"} />;
-  }
-
   return (
     <LoginContainer>
       {error && <div className="error-message">{error}</div>}
+      <h1>Campaign Tracker</h1>
       <form className="login-form" onSubmit={handleSubmit}>
-        <h2>Login</h2>
-        <label htmlFor="username">
-          Username:
-          <input
-            type="text"
-            name="username"
-            placeholder="Enter username..."
-            value={username}
-            onChange={e => setUsername(e.target.value)}
-          ></input>
-        </label>
-        <label htmlFor="password">
-          Password:
-          <input
-            type="password"
-            name="password"
-            placeholder="Enter password..."
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-          ></input>
-        </label>
-        <button id="login-submit" disabled={isLoading}>
+        <header className="header">
+          <h2>Login</h2>
+        </header>
+        <div className="inputs">
+          <label htmlFor="username">
+            Username
+            <input
+              type="text"
+              name="username"
+              // placeholder="Enter username..."
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            ></input>
+          </label>
+          <label htmlFor="password">
+            Password
+            <input
+              type="password"
+              name="password"
+              // placeholder="Enter password..."
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            ></input>
+          </label>
+        </div>
+        <MainButton id="login-submit" disabled={isLoading}>
           {isLoading ? "Loading..." : "Submit"}
-        </button>
+        </MainButton>
       </form>
+      <div className="register-container">
+        <h3>New user?</h3>
+        <MainButton id="register">Register</MainButton>
+      </div>
     </LoginContainer>
   );
 }

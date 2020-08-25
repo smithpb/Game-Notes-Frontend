@@ -7,8 +7,8 @@ import moxios from "moxios";
 const initialState = {
   appState: {
     isLoading: false,
-    error: ""
-  }
+    error: "",
+  },
 };
 
 // This should be called in place of the reducer's dispatch function
@@ -22,7 +22,7 @@ const mockDispatch = jest.fn();
 const setup = (testState = {}) => {
   const store = {
     state: { appState: { ...initialState.appState, ...testState } },
-    dispatch: mockDispatch
+    dispatch: mockDispatch,
   };
   return render(<Login />, store);
 };
@@ -51,6 +51,10 @@ describe("<Login />", () => {
   test("should contain a submit button", () => {
     const submitBtn = wrapper.getByText(/submit/i);
     expect(submitBtn).toBeTruthy();
+  });
+  test("should contain a register button", () => {
+    const registerBtn = wrapper.getByText(/register/i);
+    expect(registerBtn).toBeTruthy();
   });
 });
 
@@ -112,7 +116,7 @@ describe.skip("HTTP requests", () => {
       const request = moxios.requests.mostRecent();
       request.respondWith({
         status: 500,
-        response: {}
+        response: {},
       });
     });
 
