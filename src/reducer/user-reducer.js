@@ -4,7 +4,7 @@ export const initialState = {
   jwt: "",
   username: "",
   user_id: "",
-  isLoggedIn: false
+  isLoggedIn: false,
 };
 
 export function userReducer(state = initialState, action) {
@@ -12,19 +12,18 @@ export function userReducer(state = initialState, action) {
     case LOGIN_SUCCESS:
       return {
         ...state,
+        ...action.payload.newUser,
         jwt: action.payload.token,
-        username: action.payload.user.username,
-        user_id: action.payload.user.id,
-        isLoggedIn: true
+        isLoggedIn: true,
       };
     case FAILURE:
       return {
         ...state,
-        ...initialState
+        ...initialState,
       };
     case LOGOUT:
       return {
-        ...initialState
+        ...initialState,
       };
     default:
       return state;

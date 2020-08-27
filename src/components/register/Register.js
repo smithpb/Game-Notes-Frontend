@@ -6,7 +6,10 @@ import { validatePasswordStructure } from "../../util/misc";
 import { FAILURE, LOGIN_SUCCESS } from "../../reducer/dispatch-types";
 
 function Register({ history }) {
-  const { dispatch } = useContext(AppContext);
+  const {
+    state: { appState },
+    dispatch,
+  } = useContext(AppContext);
   const [inputs, setInputs] = useState({
     firstName: "",
     lastName: "",
@@ -38,6 +41,11 @@ function Register({ history }) {
 
   const handleChange = (event) => {
     setInputs({ ...inputs, [event.target.name]: event.target.value });
+    if (event.target.value.length > 0) {
+      const tempErrors = { ...errors };
+      delete tempErrors[event.target.name];
+      setErrors(tempErrors);
+    }
   };
 
   const PasswordDisplay = () => {
@@ -62,7 +70,7 @@ function Register({ history }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setErrors({});
+    await setErrors({});
     const blankInputMsg = "Required field.";
     for (const [key, value] of Object.entries(inputs)) {
       if (value === "") {
@@ -85,7 +93,7 @@ function Register({ history }) {
         const user = { ...inputs };
         delete user.confirmPassword;
         const response = await axios("post", "/auth/register", user);
-        dispatch({ type: LOGIN_SUCCESS, payload: response.data.newUser });
+        dispatch({ type: LOGIN_SUCCESS, payload: response.data });
         localStorage.setItem("jwt", response.data.token);
         history.push("/app");
       } catch (error) {
@@ -98,6 +106,7 @@ function Register({ history }) {
   return (
     <RegisterContainer>
       <p>Register</p>
+      {appState.error && <p className="invalid">{appState.error}</p>}
       <form onSubmit={(e) => handleSubmit(e)} data-testid="register-form">
         <label htmlFor="firstName">First Name</label>
         <span>{errors.firstName && errors.firstName.join(" ")}</span>
@@ -110,6 +119,7 @@ function Register({ history }) {
         />
         {/* {errors.firstName && errors.firstName.join(" ")} */}
         <label htmlFor="lastName">Last Name</label>
+        <span>{errors.lastName && errors.lastName.join(" ")}</span>
         <input
           name="lastName"
           value={lastName}
@@ -117,8 +127,8 @@ function Register({ history }) {
           onChange={(e) => handleChange(e)}
           data-testid="register-form-input"
         />
-        {errors.lastName && errors.lastName.join(" ")}
         <label htmlFor="email">Email</label>
+        <span>{errors.email && errors.email.join(" ")}</span>
         <input
           name="email"
           value={email}
@@ -126,8 +136,8 @@ function Register({ history }) {
           onChange={(e) => handleChange(e)}
           data-testid="register-form-input"
         />
-        {errors.email && errors.email.join(" ")}
         <label htmlFor="username">Username</label>
+        <span>{errors.username && errors.username.join(" ")}</span>
         <input
           name="username"
           value={username}
@@ -135,8 +145,8 @@ function Register({ history }) {
           onChange={(e) => handleChange(e)}
           data-testid="register-form-input"
         />
-        {errors.username && errors.username.join(" ")}
         <label htmlFor="password">Password</label>
+        <span>{errors.password && errors.password.join(" ")}</span>
         <input
           name="password"
           value={password}
@@ -145,8 +155,10 @@ function Register({ history }) {
           data-testid="register-form-input-password"
         />
         {PasswordDisplay()}
-        {errors.password && errors.password.join(" ")}
         <label htmlFor="confirmPassword">Confirm Password</label>
+        <span>
+          {errors.confirmPassword && errors.confirmPassword.join(" ")}
+        </span>
         <input
           className={
             passwordMatch && confirmPassword !== "" ? "match" : "differ"
@@ -157,7 +169,6 @@ function Register({ history }) {
           onChange={(e) => handleChange(e)}
           data-testid="register-form-input-confirm"
         />
-        {errors.confirmPassword && errors.confirmPassword.join(" ")}
         <button type="submit">Submit</button>
       </form>
     </RegisterContainer>

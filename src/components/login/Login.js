@@ -1,6 +1,7 @@
 import React from "react";
 import { AppContext } from "../../contexts/context";
 import { axiosReq } from "../../util/axios/requests";
+import { Link } from "react-router-dom";
 import {
   LOADING,
   LOGIN_SUCCESS,
@@ -76,7 +77,9 @@ function Login({ history }) {
       </form>
       <div className="register-container">
         <h3>New user?</h3>
-        <MainButton id="register">Register</MainButton>
+        <Link to={"/register"}>
+          <MainButton id="register">Register</MainButton>
+        </Link>
       </div>
     </LoginContainer>
   );

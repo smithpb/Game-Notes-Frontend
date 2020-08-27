@@ -6,16 +6,17 @@ export const RegisterContainer = styled.div.attrs({
 })`
   width: 100%;
 
+  .valid {
+    color: ${palette.success};
+  }
+  .invalid,
+  label + span {
+    color: ${palette.error};
+  }
+
   form {
     display: flex;
     flex-direction: column;
-
-    .valid {
-      color: ${palette.success};
-    }
-    .invalid {
-      color: ${palette.error};
-    }
 
     .match {
       background-color: ${palette.success};
