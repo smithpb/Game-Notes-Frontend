@@ -1,9 +1,9 @@
-import { FETCH_SUCCESS, CAMPAIGN_SORT } from "./dispatch-types";
+import { FETCH_SUCCESS, CAMPAIGN_SORT, LOGOUT } from "./dispatch-types";
 import { filterByCampaign } from "../util/misc";
 
 export const initialState = {
   rawList: [],
-  campaignList: []
+  campaignList: [],
 };
 
 export function characterReducer(state = initialState, action) {
@@ -12,13 +12,15 @@ export function characterReducer(state = initialState, action) {
       const { characters } = action.payload;
       return {
         ...state,
-        rawList: characters.data
+        rawList: characters.data,
       };
     case CAMPAIGN_SORT:
       return {
         ...state,
-        campaignList: filterByCampaign(state.rawList, action.payload)
+        campaignList: filterByCampaign(state.rawList, action.payload),
       };
+    case LOGOUT:
+      return initialState;
     default:
       return state;
   }

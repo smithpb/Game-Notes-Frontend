@@ -5,6 +5,7 @@ import {
   FAILURE,
   CAMPAIGN_ADD_SUCCESS,
   CHANGE_THEME,
+  LOGOUT,
 } from "./dispatch-types";
 
 export const initialState = {
@@ -40,6 +41,8 @@ export function appStateReducer(state = initialState, action) {
         ...state,
         theme: action.theme,
       };
+    case LOGOUT:
+      return initialState;
     default:
       return state;
   }

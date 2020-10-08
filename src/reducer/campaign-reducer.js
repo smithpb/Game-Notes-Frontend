@@ -2,11 +2,12 @@ import {
   FETCH_SUCCESS,
   CAMPAIGN_ADD_SUCCESS,
   CAMPAIGN_EDIT_SUCCESS,
-  CAMPAIGN_DELETE
+  CAMPAIGN_DELETE,
+  LOGOUT,
 } from "./dispatch-types";
 
 export const initialState = {
-  rawList: []
+  rawList: [],
 };
 
 export function campaignReducer(state = initialState, action) {
@@ -15,28 +16,30 @@ export function campaignReducer(state = initialState, action) {
       const { campaigns } = action.payload;
       return {
         ...state,
-        rawList: campaigns.data
+        rawList: campaigns.data,
       };
     case CAMPAIGN_ADD_SUCCESS:
       return {
         ...state,
-        rawList: [...state.rawList, action.payload]
+        rawList: [...state.rawList, action.payload],
       };
     case CAMPAIGN_EDIT_SUCCESS:
       return {
         ...state,
-        rawList: state.rawList.map(item => {
+        rawList: state.rawList.map((item) => {
           if (item.id === action.payload.id) {
             return action.payload;
           }
           return item;
-        })
+        }),
       };
     case CAMPAIGN_DELETE:
       return {
         ...state,
-        rawList: state.rawList.filter(item => item.id !== action.payload)
+        rawList: state.rawList.filter((item) => item.id !== action.payload),
       };
+    case LOGOUT:
+      return initialState;
     default:
       return state;
   }
