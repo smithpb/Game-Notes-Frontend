@@ -1,8 +1,8 @@
 import axios from "axios";
 import { FETCH_SUCCESS, LOADING } from "../../reducer/dispatch-types";
 
-// export const api = "http://localhost:5000/api";
-export const api = "http://10.0.0.82:5000/api";
+export const api = "http://localhost:5000/api";
+// export const api = "http://10.0.0.82:5000/api";
 
 export const axiosReq = async (method = "get", endpoint, data = {}) => {
   return await axios({

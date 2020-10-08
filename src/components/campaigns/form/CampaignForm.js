@@ -5,24 +5,25 @@ import {
   CAMPAIGN_ADD_SUCCESS,
   CAMPAIGN_EDIT_SUCCESS,
   FAILURE,
-  LOADING
+  LOADING,
 } from "../../../reducer/dispatch-types";
 
 function CampaignForm({ editing, campaign, working }) {
   const [inputs, setInputs] = useState(editing ? campaign : {});
   const { dispatch } = useContext(AppContext);
 
-  const handleChange = event => {
+  const handleChange = (event) => {
     setInputs({ ...inputs, [event.target.name]: event.target.value });
   };
 
-  const handleSubmit = async event => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     dispatch({ type: LOADING });
     try {
       const method = editing ? "put" : "post";
       const disType = editing ? CAMPAIGN_EDIT_SUCCESS : CAMPAIGN_ADD_SUCCESS;
+      delete inputs.journey;
 
       const response = await axiosReq(method, "/campaigns", inputs);
       dispatch({ type: disType, payload: response.data });
@@ -30,16 +31,16 @@ function CampaignForm({ editing, campaign, working }) {
     } catch (e) {
       dispatch({
         type: FAILURE,
-        payload: e.response.data.message
+        payload: e.response.data.message,
       });
     }
   };
 
   return (
     <div data-testid="camp-form-component">
-      <form data-testid="camp-form" onSubmit={e => handleSubmit(e)}>
+      <form data-testid="camp-form" onSubmit={(e) => handleSubmit(e)}>
         <input
-          onChange={e => handleChange(e)}
+          onChange={(e) => handleChange(e)}
           type="text"
           name="name"
           value={inputs.name || ""}
@@ -47,7 +48,7 @@ function CampaignForm({ editing, campaign, working }) {
           data-testid="camp-form-input"
         />
         <input
-          onChange={e => handleChange(e)}
+          onChange={(e) => handleChange(e)}
           type="text"
           name="DM"
           value={inputs.DM || ""}
@@ -55,7 +56,7 @@ function CampaignForm({ editing, campaign, working }) {
           data-testid="camp-form-input"
         />
         <textarea
-          onChange={e => handleChange(e)}
+          onChange={(e) => handleChange(e)}
           name="description"
           value={inputs.description || ""}
           placeholder="Enter campaign description"
