@@ -18,9 +18,11 @@ function App() {
         .then((response) => {
           dispatch({ type: LOGIN_SUCCESS, payload: response.data });
         })
-        .catch((err) =>
-          dispatch({ type: FAILURE, payload: err.response.data.message })
-        );
+        .catch((err) => {
+          const errorMsg =
+            err.response?.data.message || "No internet connection";
+          dispatch({ type: FAILURE, payload: errorMsg });
+        });
     }
   }, []);
 

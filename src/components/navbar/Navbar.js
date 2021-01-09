@@ -13,7 +13,7 @@ function Navbar({ history }) {
     localStorage.removeItem("jwt");
   };
 
-  const logButton = () => {
+  const LogButton = () => {
     if (user.isLoggedIn) {
       return (
         <div className="log-button" onClick={logout}>
@@ -31,7 +31,7 @@ function Navbar({ history }) {
   return (
     <NavBar>
       <p>{user.username}</p>
-      {logButton()}
+      <LogButton></LogButton>
     </NavBar>
   );
 }

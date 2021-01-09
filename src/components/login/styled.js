@@ -14,8 +14,10 @@ export const LoginContainer = styled.div.attrs({
   font-family: "Roboto", sans-serif;
 
   .error-message {
+    text-align: center;
+    width: 75%;
     position: absolute;
-    top: 30%;
+    top: 22%;
     left: 50%;
     transform: translate(-50%);
   }

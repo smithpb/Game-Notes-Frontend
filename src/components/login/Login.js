@@ -27,28 +27,34 @@ function Login({ history }) {
 
     try {
       const user = { username, password };
+      console.log(user);
       const response = await axiosReq("post", "/auth/login", user);
 
       localStorage.setItem("jwt", response.data.token);
       dispatch({ type: LOGIN_SUCCESS, payload: response.data });
 
+      clearInputs();
       history.push("/app");
     } catch (err) {
       console.log(err.response);
-      dispatch({ type: FAILURE, payload: err.response.data.message });
+      setPassword("");
+      dispatch({ type: FAILURE, payload: err.response?.data.message });
     }
+  };
+
+  const clearInputs = () => {
     setPassword("");
     setUsername("");
   };
 
   return (
     <LoginContainer>
-      {error && <div className="error-message">{error}</div>}
       <h1>Campaign Tracker</h1>
       <form className="login-form" onSubmit={handleSubmit}>
         <header className="header">
           <h2>Login</h2>
         </header>
+        {!!error && <div className="error-message">{error}</div>}
         <div className="inputs">
           <label htmlFor="username">
             Username

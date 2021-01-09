@@ -1,9 +1,16 @@
 import React from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
-import Login from "../components/login/Login";
-import Register from "../components/register/Register";
-import CampaignList from "../components/campaigns/list/CampaignList";
-import Navbar from "../components/navbar/Navbar";
+import {
+  Login,
+  Register,
+  CampaignList,
+  Navbar,
+  NoteConsole,
+} from "../components";
+// import Login from "../components/login/Login";
+// import Register from "../components/register/Register";
+// import CampaignList from "../components/campaigns/list/CampaignList";
+// import Navbar from "../components/navbar/Navbar";
 
 const ROUTES = [
   { path: "/login", exact: true, key: "LOGIN", component: Login },
@@ -26,6 +33,12 @@ const ROUTES = [
         key: "APP_ROOT",
         exact: true,
         component: CampaignList,
+      },
+      {
+        path: "/app/notes",
+        key: "NOTE_CONSOLE",
+        exact: true,
+        component: NoteConsole,
       },
     ],
   },

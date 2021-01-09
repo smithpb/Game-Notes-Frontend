@@ -21,14 +21,43 @@ function Register({ history }) {
   const [errors, setErrors] = useState({});
   const [passwordMatch, setPasswordMatch] = useState(true);
   const [isValidPassword, setIsValidPassword] = useState({});
-  const {
-    firstName,
-    lastName,
-    email,
-    username,
-    password,
-    confirmPassword,
-  } = inputs;
+  const { password, confirmPassword } = inputs;
+
+  const inputObjects = [
+    {
+      label: "First Name",
+      inputKey: "firstName",
+      inputRef: React.createRef(),
+    },
+    {
+      label: "Last Name",
+      inputKey: "lastName",
+      inputRef: React.createRef(),
+    },
+    {
+      label: "Email",
+      inputKey: "email",
+      type: "email",
+      inputRef: React.createRef(),
+    },
+    {
+      label: "Username",
+      inputKey: "username",
+      inputRef: React.createRef(),
+    },
+    {
+      label: "Password",
+      inputKey: "password",
+      type: "password",
+      inputRef: React.createRef(),
+    },
+    {
+      label: "Confirm Password",
+      inputKey: "confirmPassword",
+      type: "password",
+      inputRef: React.createRef(),
+    },
+  ];
 
   useEffect(() => {
     setPasswordMatch(password === confirmPassword);
@@ -42,8 +71,7 @@ function Register({ history }) {
   const handleChange = (event) => {
     setInputs({ ...inputs, [event.target.name]: event.target.value });
     if (event.target.value.length > 0) {
-      const tempErrors = { ...errors };
-      delete tempErrors[event.target.name];
+      const { [event.target.name]: deleted, ...tempErrors } = errors;
       setErrors(tempErrors);
     }
   };
@@ -90,15 +118,17 @@ function Register({ history }) {
       passwordMatch
     ) {
       try {
-        const user = { ...inputs };
-        delete user.confirmPassword;
+        const { confirmPassword, ...user } = inputs;
         const response = await axios("post", "/auth/register", user);
         dispatch({ type: LOGIN_SUCCESS, payload: response.data });
         localStorage.setItem("jwt", response.data.token);
         history.push("/app");
       } catch (error) {
         console.log(error.response);
-        dispatch({ type: FAILURE, payload: error.response.data.message });
+        const errorMsg =
+          error.response?.data.message ||
+          "No internet connection or something went very wrong.";
+        dispatch({ type: FAILURE, payload: errorMsg });
       }
     }
   };
@@ -108,70 +138,54 @@ function Register({ history }) {
       <p>Register</p>
       {appState.error && <p className="invalid">{appState.error}</p>}
       <form onSubmit={(e) => handleSubmit(e)} data-testid="register-form">
-        <label htmlFor="firstName">First Name</label>
-        <span>{errors.firstName && errors.firstName.join(" ")}</span>
-        <input
-          name="firstName"
-          value={firstName}
-          type="text"
-          onChange={(e) => handleChange(e)}
-          data-testid="register-form-input"
-        />
-        {/* {errors.firstName && errors.firstName.join(" ")} */}
-        <label htmlFor="lastName">Last Name</label>
-        <span>{errors.lastName && errors.lastName.join(" ")}</span>
-        <input
-          name="lastName"
-          value={lastName}
-          type="text"
-          onChange={(e) => handleChange(e)}
-          data-testid="register-form-input"
-        />
-        <label htmlFor="email">Email</label>
-        <span>{errors.email && errors.email.join(" ")}</span>
-        <input
-          name="email"
-          value={email}
-          type="email"
-          onChange={(e) => handleChange(e)}
-          data-testid="register-form-input"
-        />
-        <label htmlFor="username">Username</label>
-        <span>{errors.username && errors.username.join(" ")}</span>
-        <input
-          name="username"
-          value={username}
-          type="text"
-          onChange={(e) => handleChange(e)}
-          data-testid="register-form-input"
-        />
-        <label htmlFor="password">Password</label>
-        <span>{errors.password && errors.password.join(" ")}</span>
-        <input
-          name="password"
-          value={password}
-          type="password"
-          onChange={(e) => handleChange(e)}
-          data-testid="register-form-input-password"
-        />
-        {PasswordDisplay()}
-        <label htmlFor="confirmPassword">Confirm Password</label>
-        <span>
-          {errors.confirmPassword && errors.confirmPassword.join(" ")}
-        </span>
-        <input
-          className={
-            passwordMatch && confirmPassword !== "" ? "match" : "differ"
-          }
-          name="confirmPassword"
-          value={confirmPassword}
-          type="password"
-          onChange={(e) => handleChange(e)}
-          data-testid="register-form-input-confirm"
-        />
+        {inputObjects.map((input) => (
+          <>
+            <ValidatedInput
+              label={input.label}
+              inputKey={input.inputKey}
+              inputRef={(el) => (input.inputRef = el)}
+              type={input.type}
+              error={errors[input.inputKey]}
+              handleChange={handleChange}
+              assignedClass={
+                input.inputKey === "confirmPassword"
+                  ? passwordMatch && confirmPassword !== ""
+                    ? "match"
+                    : "differ"
+                  : ""
+              }
+            />
+            {input.inputKey === "password" && <PasswordDisplay />}
+          </>
+        ))}
         <button type="submit">Submit</button>
       </form>
     </RegisterContainer>
+  );
+}
+
+function ValidatedInput({
+  label,
+  inputKey,
+  inputRef,
+  type = "text",
+  error,
+  handleChange,
+  assignedClass = "",
+}) {
+  return (
+    <>
+      <label htmlFor={inputKey}>{label}</label>
+      <span>{error && error.join(" ")}</span>
+      <input
+        className={assignedClass}
+        name={inputKey}
+        ref={inputRef}
+        type={type}
+        onChange={(e) => handleChange(e)}
+        data-testid="register-form-input"
+      />
+    </>
   );
 }
 
