@@ -31,7 +31,7 @@ const ROUTES = [
       {
         path: "/app",
         key: "APP_ROOT",
-        exact: true,
+        // exact: true,
         component: CampaignList,
       },
       {
@@ -41,6 +41,12 @@ const ROUTES = [
         component: NoteConsole,
       },
     ],
+  },
+  {
+    path: "*",
+    exact: true,
+    key: "NOT_FOUND",
+    component: () => <div>Not a valid route</div>,
   },
 ];
 
@@ -56,12 +62,11 @@ function ConstructedRoute(route) {
 
 export function RenderRoutes({ routes }) {
   return (
-    <>
+    <Switch>
       {routes.map((route) => (
         <ConstructedRoute key={route.key} {...route} />
       ))}
-      {/* <Route component={() => <h1>Not Found!</h1>} /> */}
-    </>
+    </Switch>
   );
 }
 

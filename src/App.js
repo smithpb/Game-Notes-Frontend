@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 // import "./App.css";
 import { GlobalStyle } from "./styles/body";
 import { ThemeProvider } from "styled-components";
@@ -11,6 +11,9 @@ import { LOGIN_SUCCESS, FAILURE } from "./reducer/dispatch-types";
 
 function App() {
   const [state, dispatch] = useCombinedReducer();
+  const contextValue = useMemo(() => {
+    return { state, dispatch };
+  }, [state, dispatch]);
 
   useEffect(() => {
     if (localStorage.getItem("jwt") && !state.user.isLoggedIn) {
@@ -24,7 +27,7 @@ function App() {
           dispatch({ type: FAILURE, payload: errorMsg });
         });
     }
-  }, []);
+  }, [dispatch, state.user.isLoggedIn]);
 
   useEffect(() => {
     if (state.user.isLoggedIn) {
@@ -35,7 +38,7 @@ function App() {
 
   return (
     <div className="App">
-      <AppContext.Provider value={{ state, dispatch }}>
+      <AppContext.Provider value={contextValue}>
         <ThemeProvider theme={theme[state.appState.theme]}>
           <GlobalStyle />
           {/* <Navbar /> */}
