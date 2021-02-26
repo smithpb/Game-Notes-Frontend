@@ -27,7 +27,6 @@ function Login({ history }) {
 
     try {
       const user = { username, password };
-      console.log(user);
       const response = await axiosReq("post", "/auth/login", user);
 
       localStorage.setItem("jwt", response.data.token);
@@ -36,7 +35,7 @@ function Login({ history }) {
       clearInputs();
       history.push("/app");
     } catch (err) {
-      console.log(err.response);
+      console.log(err);
       setPassword("");
       dispatch({ type: FAILURE, payload: err.response?.data.message });
     }

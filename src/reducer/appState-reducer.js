@@ -34,7 +34,7 @@ export function appStateReducer(state = initialState, action) {
       return {
         ...state,
         isLoading: false,
-        error: action.payload,
+        error: action.payload || "Network Error",
       };
     case CHANGE_THEME:
       return {

@@ -1,7 +1,7 @@
 import React from "react";
 import { AppContext } from "../../contexts/context";
 import { LOGOUT } from "../../reducer/dispatch-types";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { NavBar } from "./styled";
 
 function Navbar({ history }) {
@@ -11,6 +11,7 @@ function Navbar({ history }) {
   const logout = () => {
     dispatch({ type: LOGOUT });
     localStorage.removeItem("jwt");
+    history.push("/login");
   };
 
   const LogButton = () => {
@@ -36,4 +37,4 @@ function Navbar({ history }) {
   );
 }
 
-export default Navbar;
+export default withRouter(Navbar);

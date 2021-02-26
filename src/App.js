@@ -2,6 +2,7 @@ import React, { useEffect, useMemo } from "react";
 // import "./App.css";
 import { GlobalStyle } from "./styles/body";
 import { ThemeProvider } from "styled-components";
+import Navbar from "./components/navbar/Navbar";
 import theme from "./styles/themes";
 import ROUTES, { RenderRoutes } from "./routes/routes";
 import { AppContext } from "./contexts/context";
@@ -27,21 +28,21 @@ function App() {
           dispatch({ type: FAILURE, payload: errorMsg });
         });
     }
-  }, [dispatch, state.user.isLoggedIn]);
-
-  useEffect(() => {
     if (state.user.isLoggedIn) {
       console.log("Fetch all data FIRED!");
       fetchAllData(dispatch);
     }
-  }, [state.user.isLoggedIn, dispatch]);
+  }, [dispatch, state.user.isLoggedIn]);
+
+  // useEffect(() => {
+  // }, [state.user.isLoggedIn, dispatch]);
 
   return (
     <div className="App">
       <AppContext.Provider value={contextValue}>
         <ThemeProvider theme={theme[state.appState.theme]}>
           <GlobalStyle />
-          {/* <Navbar /> */}
+          <Navbar />
           <RenderRoutes routes={ROUTES} />
         </ThemeProvider>
       </AppContext.Provider>

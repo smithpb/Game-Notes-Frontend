@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
+import { AppContext } from "../../contexts/context";
 
 function NoteConsole() {
+  const { campaignList } = useContext(AppContext).state.notes;
+
   return (
     <div>
-      <h2>Note console is loaded.</h2>
-      <h2>Note console is loaded.</h2>
-      <h2>Note console is loaded.</h2>
-      <h2>Note console is loaded.</h2>
+      {campaignList.map((note) => (
+        <>
+          <p>{note.text}</p>
+        </>
+      ))}
     </div>
   );
 }
