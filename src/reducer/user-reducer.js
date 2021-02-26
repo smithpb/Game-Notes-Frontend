@@ -3,7 +3,7 @@ import { LOGIN_SUCCESS, FAILURE, LOGOUT } from "./dispatch-types";
 export const initialState = {
   jwt: "",
   username: "",
-  user_id: "",
+  id: "",
   isLoggedIn: false,
 };
 
@@ -12,7 +12,7 @@ export function userReducer(state = initialState, action) {
     case LOGIN_SUCCESS:
       return {
         ...state,
-        ...action.payload.newUser,
+        ...action.payload.user,
         jwt: action.payload.token,
         isLoggedIn: true,
       };

@@ -9,11 +9,12 @@ function CampaignList() {
   const [create, setCreate] = useState(false);
   const { rawList } = campaigns;
 
-  const list = rawList.map((item) => (
-    <React.Fragment key={item.id}>
-      <CampaignItem campaign={item} />
-    </React.Fragment>
-  ));
+  const List = () =>
+    rawList.map((item) => (
+      <React.Fragment key={item.id}>
+        <CampaignItem campaign={item} />
+      </React.Fragment>
+    ));
 
   if (user.isLoading) {
     return <div>Loading...</div>;
@@ -21,7 +22,7 @@ function CampaignList() {
 
   return (
     <CampListContainer>
-      {list}
+      <List />
       <button
         onClick={() => setCreate(true)}
         className="camp-add-btn"

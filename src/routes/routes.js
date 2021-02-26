@@ -4,7 +4,7 @@ import {
   Login,
   Register,
   CampaignList,
-  Navbar,
+  // Navbar,
   NoteConsole,
 } from "../components";
 // import Login from "../components/login/Login";
@@ -13,12 +13,18 @@ import {
 // import Navbar from "../components/navbar/Navbar";
 
 const ROUTES = [
+  {
+    path: "/",
+    exact: true,
+    key: "HOME",
+    component: () => <Redirect to={"/app"} />,
+  },
   { path: "/login", exact: true, key: "LOGIN", component: Login },
   { path: "/register", exact: true, key: "REGISTER", component: Register },
-  { path: "/app", key: "NAVBAR", component: Navbar },
+  // { path: "/app", key: "NAVBAR", component: Navbar },
   {
     path: "/app",
-    exact: true,
+    // exact: true,
     key: "APP",
     component: (props) => {
       if (!localStorage.getItem("jwt")) {
@@ -31,7 +37,7 @@ const ROUTES = [
       {
         path: "/app",
         key: "APP_ROOT",
-        // exact: true,
+        exact: true,
         component: CampaignList,
       },
       {
