@@ -7,7 +7,7 @@ import {
   CAMPAIGN_DELETE,
 } from "../../../reducer/dispatch-types";
 import CampaignForm from "../form/CampaignForm";
-import { Campaign } from "./styled";
+import { Campaign } from "./style";
 import { axiosReq } from "../../../util/axios/requests";
 
 function CampaignItem({ campaign, history }) {

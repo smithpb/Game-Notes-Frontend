@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { RegisterContainer } from "./styled";
+import { RegisterContainer } from "./style";
 import { axiosReq as axios } from "../../util/axios/requests";
 import { AppContext } from "../../contexts/context";
 import { validatePasswordStructure } from "../../util/misc";
@@ -125,9 +125,7 @@ function Register({ history }) {
         history.push("/app");
       } catch (error) {
         console.log(error.response);
-        const errorMsg =
-          error.response?.data.message ||
-          "No internet connection or something went very wrong.";
+        const errorMsg = error.response?.data.message;
         dispatch({ type: FAILURE, payload: errorMsg });
       }
     }
@@ -139,7 +137,7 @@ function Register({ history }) {
       {appState.error && <p className="invalid">{appState.error}</p>}
       <form onSubmit={(e) => handleSubmit(e)} data-testid="register-form">
         {inputObjects.map((input) => (
-          <>
+          <React.Fragment key={input.inputKey}>
             <ValidatedInput
               label={input.label}
               inputKey={input.inputKey}
@@ -156,7 +154,7 @@ function Register({ history }) {
               }
             />
             {input.inputKey === "password" && <PasswordDisplay />}
-          </>
+          </React.Fragment>
         ))}
         <button type="submit">Submit</button>
       </form>

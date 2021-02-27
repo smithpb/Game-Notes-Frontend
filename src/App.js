@@ -34,9 +34,6 @@ function App() {
     }
   }, [dispatch, state.user.isLoggedIn]);
 
-  // useEffect(() => {
-  // }, [state.user.isLoggedIn, dispatch]);
-
   return (
     <div className="App">
       <AppContext.Provider value={contextValue}>

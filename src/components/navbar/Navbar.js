@@ -2,7 +2,7 @@ import React from "react";
 import { AppContext } from "../../contexts/context";
 import { LOGOUT } from "../../reducer/dispatch-types";
 import { Link, withRouter } from "react-router-dom";
-import { NavBar } from "./styled";
+import { NavBar } from "./style";
 
 function Navbar({ history }) {
   const { state, dispatch } = React.useContext(AppContext);

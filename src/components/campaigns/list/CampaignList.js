@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { AppContext } from "../../../contexts/context";
 import CampaignItem from "../item/CampaignItem";
 import CampaignForm from "../form/CampaignForm";
-import { CampListContainer } from "./styled";
+import { CampListContainer } from "./style";
 
 function CampaignList() {
   const { campaigns, user } = React.useContext(AppContext).state;

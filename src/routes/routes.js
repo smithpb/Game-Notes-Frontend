@@ -1,16 +1,6 @@
 import React from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
-import {
-  Login,
-  Register,
-  CampaignList,
-  // Navbar,
-  NoteConsole,
-} from "../components";
-// import Login from "../components/login/Login";
-// import Register from "../components/register/Register";
-// import CampaignList from "../components/campaigns/list/CampaignList";
-// import Navbar from "../components/navbar/Navbar";
+import { Login, Register, CampaignList, NoteConsole } from "../components";
 
 const ROUTES = [
   {
@@ -21,10 +11,8 @@ const ROUTES = [
   },
   { path: "/login", exact: true, key: "LOGIN", component: Login },
   { path: "/register", exact: true, key: "REGISTER", component: Register },
-  // { path: "/app", key: "NAVBAR", component: Navbar },
   {
     path: "/app",
-    // exact: true,
     key: "APP",
     component: (props) => {
       if (!localStorage.getItem("jwt")) {

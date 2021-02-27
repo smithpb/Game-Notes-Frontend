@@ -8,7 +8,7 @@ import {
   FAILURE,
   // CHANGE_THEME,
 } from "../../reducer/dispatch-types";
-import { LoginContainer } from "./styled";
+import { LoginContainer } from "./style";
 import { MainButton } from "../../styles";
 
 function Login({ history }) {
