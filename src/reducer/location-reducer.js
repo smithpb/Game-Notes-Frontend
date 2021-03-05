@@ -3,7 +3,7 @@ import { filterByCampaign } from "../util/misc";
 
 export const initialState = {
   rawList: [],
-  campaignList: [],
+  displayList: [],
 };
 
 export function locationReducer(state = initialState, action) {
@@ -17,7 +17,7 @@ export function locationReducer(state = initialState, action) {
     case CAMPAIGN_SORT:
       return {
         ...state,
-        campaignList: filterByCampaign(state.rawList, action.payload),
+        displayList: filterByCampaign(state.rawList, action.payload),
       };
     case LOGOUT:
       return initialState;

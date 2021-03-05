@@ -176,6 +176,7 @@ function ValidatedInput({
       <label htmlFor={inputKey}>{label}</label>
       <span>{error && error.join(" ")}</span>
       <input
+        id={inputKey}
         className={assignedClass}
         name={inputKey}
         ref={inputRef}

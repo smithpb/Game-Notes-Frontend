@@ -2,6 +2,14 @@ export const filterByCampaign = (arr, id) => {
   return arr.filter((e) => e.campaign_id === id);
 };
 
+export const filterByLocation = (arr, loc) => {
+  return arr.filter((e) => e.location === loc);
+};
+
+export const filterByCharacter = (arr, char) => {
+  return arr.filter((e) => e.tags.includes(char));
+};
+
 export const validatePasswordStructure = (password) => {
   const result = {};
   result.upperCase = /.*[A-Z]/.test(password);

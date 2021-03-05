@@ -1,17 +1,13 @@
-import React, { useContext } from "react";
-import { AppContext } from "../../contexts/context";
+import React from "react";
 import { ConsoleContainer } from "./style";
+import NoteDisplay from "./note-display/NoteDisplay";
+import Navigation from "./navigation/Navigation";
 
 function NoteConsole() {
-  const { campaignList } = useContext(AppContext).state.notes;
-
   return (
     <ConsoleContainer>
-      {campaignList.map((note) => (
-        <>
-          <p>{note.text}</p>
-        </>
-      ))}
+      <Navigation />
+      <NoteDisplay />
     </ConsoleContainer>
   );
 }

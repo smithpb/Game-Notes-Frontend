@@ -65,7 +65,9 @@ function CampaignForm({ editing, campaign, working }) {
         <button type="submit" data-testid="camp-form-submit">
           Submit
         </button>
-        <button onClick={() => working(false)}>Cancel</button>
+        <button type="button" onClick={() => working(false)}>
+          Cancel
+        </button>
       </form>
     </div>
   );
