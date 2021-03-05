@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { AppContext } from "../../../contexts/context";
 import { FILTER_NOTES } from "../../../reducer/dispatch-types";
 import { filterByLocation, filterByCharacter } from "../../../util/misc";
+import { NavigationContainer } from "../style";
 
 const typeDict = {
   characters: {
@@ -18,14 +19,14 @@ function Navigation() {
   const [selected, setSelected] = useState("");
 
   return (
-    <div>
+    <NavigationContainer>
       <div className={"nav-item" + (selected === "" ? " show" : " hide")}>
         {/* <p onClick={() => setSelected("session")}>Session</p> */}
         <p onClick={() => setSelected("characters")}>Character</p>
         <p onClick={() => setSelected("locations")}>Location</p>
       </div>
       <NavList type={selected} />
-    </div>
+    </NavigationContainer>
   );
 }
 

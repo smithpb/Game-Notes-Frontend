@@ -21,7 +21,8 @@ function CampaignItem({ campaign, history }) {
     history.push("/app/notes");
   };
 
-  const deleteItem = async () => {
+  const deleteItem = async (event) => {
+    event.stopPropagation();
     try {
       await axiosReq("delete", `/campaigns/${id}`);
       dispatch({ type: CAMPAIGN_DELETE, payload: id });
@@ -35,13 +36,20 @@ function CampaignItem({ campaign, history }) {
   }
 
   return (
-    <Campaign onClick={() => selectCampaign(id)}>
+    <Campaign onClick={(e) => selectCampaign(id, e)}>
       <h2>{name}</h2>
       <p>Run by: {DM}</p>
       <p>{description}</p>
       <div className="camp-controls">
-        <p onClick={() => setEdit(true)}>Edit</p>
-        <span onClick={deleteItem}>X</span>
+        <p
+          onClick={(e) => {
+            e.stopPropagation();
+            setEdit(true);
+          }}
+        >
+          Edit
+        </p>
+        <span onClick={(e) => deleteItem(e)}>X</span>
       </div>
     </Campaign>
   );
