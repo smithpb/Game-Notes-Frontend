@@ -8,7 +8,8 @@ export const LOGOUT = "LOGOUT";
 export const CHANGE_THEME = "CHANGE_THEME";
 
 //Types to manage fetching data
-export const FETCH_SUCCESS = "FETCH_SUCCESS";
+export const CAMPAIGN_FETCH_SUCCESS = "CAMPAIGN_FETCH_SUCCESS";
+export const DATA_FETCH_SUCCESS = "DATA_FETCH_SUCCESS";
 
 export const CAMPAIGN_SORT = "CAMPAIGN_SORT";
 export const CAMPAIGN_ADD_SUCCESS = "CAMPAIGN_ADD_SUCCESS";

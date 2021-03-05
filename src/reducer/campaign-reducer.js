@@ -1,5 +1,5 @@
 import {
-  FETCH_SUCCESS,
+  CAMPAIGN_FETCH_SUCCESS,
   CAMPAIGN_ADD_SUCCESS,
   CAMPAIGN_EDIT_SUCCESS,
   CAMPAIGN_DELETE,
@@ -12,11 +12,10 @@ export const initialState = {
 
 export function campaignReducer(state = initialState, action) {
   switch (action.type) {
-    case FETCH_SUCCESS:
-      const { campaigns } = action.payload;
+    case CAMPAIGN_FETCH_SUCCESS:
       return {
         ...state,
-        rawList: campaigns.data,
+        rawList: action.payload,
       };
     case CAMPAIGN_ADD_SUCCESS:
       return {
