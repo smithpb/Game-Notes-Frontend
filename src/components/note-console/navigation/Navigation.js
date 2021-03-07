@@ -34,6 +34,7 @@ function NavList({ type }) {
   const { state, dispatch } = useContext(AppContext);
   const [list, setList] = useState(state[type]?.displayList || []);
   const [property, setProperty] = useState("");
+  const [query, setQuery] = useState("");
 
   useEffect(() => {
     setProperty(typeDict[type]?.key);
@@ -41,18 +42,21 @@ function NavList({ type }) {
     // eslint-disable-next-line
   }, [type]);
 
-  const filterNotes = (query) => {
+  useEffect(() => {
     const notes = state.notes.rawList;
-    const filteredNotes = typeDict[type].filter(notes, query);
+    const filteredNotes = typeDict[type]?.filter(notes, query) || notes;
 
     console.log(filteredNotes);
     dispatch({ type: FILTER_NOTES, payload: filteredNotes });
-  };
+  }, [query, state.notes.rawList]);
+
+  // const filterNotes = (query) => {
+  // };
 
   return (
     <div>
       {list.map((item) => (
-        <p onClick={() => filterNotes(item[property])} key={item.id}>
+        <p onClick={() => setQuery(item[property])} key={item.id}>
           {item[property]}
         </p>
       ))}

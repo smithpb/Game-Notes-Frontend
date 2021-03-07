@@ -26,7 +26,7 @@ export const fetchCampaigns = async (dispatch) => {
     dispatch({ type: CAMPAIGN_FETCH_SUCCESS, payload: res.data });
   } catch (err) {
     console.log(err);
-    dispatch({ type: FAILURE, payload: err.response.message });
+    dispatch({ type: FAILURE, payload: err.response.data.message });
   }
 };
 

@@ -1,4 +1,9 @@
-import { DATA_FETCH_SUCCESS, LOGOUT, FILTER_NOTES } from "./dispatch-types";
+import {
+  DATA_FETCH_SUCCESS,
+  LOGOUT,
+  FILTER_NOTES,
+  ADD_NOTE,
+} from "./dispatch-types";
 // import { filterByCampaign } from "../util/misc";
 
 export const initialState = {
@@ -15,11 +20,11 @@ export function noteReducer(state = initialState, action) {
         displayList: notes.data,
         rawList: notes.data,
       };
-    // case CAMPAIGN_SORT:
-    //   return {
-    //     ...state,
-    //     displayList: filterByCampaign(state.rawList, action.payload),
-    //   };
+    case ADD_NOTE:
+      return {
+        ...state,
+        rawList: [action.payload, ...state.rawList],
+      };
     case FILTER_NOTES:
       return {
         ...state,

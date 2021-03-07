@@ -2,12 +2,14 @@ import {
   CAMPAIGN_FETCH_SUCCESS,
   CAMPAIGN_ADD_SUCCESS,
   CAMPAIGN_EDIT_SUCCESS,
+  CAMPAIGN_SELECT,
   CAMPAIGN_DELETE,
   LOGOUT,
 } from "./dispatch-types";
 
 export const initialState = {
   rawList: [],
+  current: {},
 };
 
 export function campaignReducer(state = initialState, action) {
@@ -16,6 +18,11 @@ export function campaignReducer(state = initialState, action) {
       return {
         ...state,
         rawList: action.payload,
+      };
+    case CAMPAIGN_SELECT:
+      return {
+        ...state,
+        current: state.rawList.find((item) => item.id === action.payload),
       };
     case CAMPAIGN_ADD_SUCCESS:
       return {

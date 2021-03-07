@@ -2,8 +2,7 @@ import React, { useContext, useState } from "react";
 import { AppContext } from "../../../contexts/context";
 import { withRouter } from "react-router-dom";
 import {
-  CAMPAIGN_SORT,
-  DATA_FETCH_SUCCESS,
+  CAMPAIGN_SELECT,
   FAILURE,
   CAMPAIGN_DELETE,
 } from "../../../reducer/dispatch-types";
@@ -18,7 +17,7 @@ function CampaignItem({ campaign, history }) {
 
   const selectCampaign = async (id) => {
     console.log("Campaign selected");
-    // dispatch({ type: CAMPAIGN_SORT, payload: id });
+    dispatch({ type: CAMPAIGN_SELECT, payload: id });
     await fetchCampaignData(dispatch, id);
     history.push("/app/notes");
   };
