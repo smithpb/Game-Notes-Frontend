@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { AppContext } from "../../../contexts/context";
 import { MainButton } from "../../../styles";
 import { axiosReq } from "../../../util/axios/requests";
-import { ADD_NOTE } from "../../../reducer/dispatch-types";
+import { ADD_NOTE, FAILURE } from "../../../reducer/dispatch-types";
 import { combineRegEx, makeRegExArr } from "../../../util/text-search/index";
 import { pullProperty } from "../../../util/misc";
 
@@ -48,10 +48,15 @@ function NoteForm() {
       location_id: currentLocation.location_id,
     };
     const tags = pullProperty(taggedChar, "id");
-    const res = await axiosReq("post", "/notes", { note: newNote, tags });
-    setNote("");
-    setQuest(false);
-    dispatch({ type: ADD_NOTE, payload: res.data });
+
+    try {
+      const res = await axiosReq("post", "/notes", { note: newNote, tags });
+      dispatch({ type: ADD_NOTE, payload: res.data });
+      setNote("");
+      setQuest(false);
+    } catch (err) {
+      dispatch({ type: FAILURE, payload: err.response?.data.message });
+    }
   };
 
   return (
