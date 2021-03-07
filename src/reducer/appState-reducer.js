@@ -1,7 +1,8 @@
 import {
   LOGIN_SUCCESS,
   LOADING,
-  FETCH_SUCCESS,
+  CAMPAIGN_FETCH_SUCCESS,
+  DATA_FETCH_SUCCESS,
   FAILURE,
   CAMPAIGN_ADD_SUCCESS,
   CHANGE_THEME,
@@ -22,7 +23,8 @@ export function appStateReducer(state = initialState, action) {
         isLoading: true,
         error: "",
       };
-    case FETCH_SUCCESS:
+    case DATA_FETCH_SUCCESS:
+    case CAMPAIGN_FETCH_SUCCESS:
     case CAMPAIGN_ADD_SUCCESS:
     case LOGIN_SUCCESS:
       return {

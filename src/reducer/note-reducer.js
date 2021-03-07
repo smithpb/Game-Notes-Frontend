@@ -1,10 +1,10 @@
 import {
-  FETCH_SUCCESS,
-  CAMPAIGN_SORT,
+  DATA_FETCH_SUCCESS,
   LOGOUT,
   FILTER_NOTES,
+  ADD_NOTE,
 } from "./dispatch-types";
-import { filterByCampaign } from "../util/misc";
+// import { filterByCampaign } from "../util/misc";
 
 export const initialState = {
   rawList: [],
@@ -13,16 +13,17 @@ export const initialState = {
 
 export function noteReducer(state = initialState, action) {
   switch (action.type) {
-    case FETCH_SUCCESS:
+    case DATA_FETCH_SUCCESS:
       const { notes } = action.payload;
       return {
         ...state,
+        displayList: notes.data,
         rawList: notes.data,
       };
-    case CAMPAIGN_SORT:
+    case ADD_NOTE:
       return {
         ...state,
-        displayList: filterByCampaign(state.rawList, action.payload),
+        rawList: [action.payload, ...state.rawList],
       };
     case FILTER_NOTES:
       return {

@@ -7,7 +7,7 @@ import theme from "./styles/themes";
 import ROUTES, { RenderRoutes } from "./routes/routes";
 import { AppContext } from "./contexts/context";
 import { useCombinedReducer } from "./hooks/combine-reducers";
-import { fetchAllData, axiosReq } from "./util/axios/requests";
+import { fetchCampaigns, axiosReq } from "./util/axios/requests";
 import { LOGIN_SUCCESS, FAILURE } from "./reducer/dispatch-types";
 
 function App() {
@@ -30,7 +30,7 @@ function App() {
     }
     if (state.user.isLoggedIn) {
       console.log("Fetch all data FIRED!");
-      fetchAllData(dispatch);
+      fetchCampaigns(dispatch);
     }
   }, [dispatch, state.user.isLoggedIn]);
 
