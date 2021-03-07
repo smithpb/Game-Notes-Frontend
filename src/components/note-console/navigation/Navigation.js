@@ -48,6 +48,7 @@ function NavList({ type }) {
 
     console.log(filteredNotes);
     dispatch({ type: FILTER_NOTES, payload: filteredNotes });
+    // eslint-disable-next-line
   }, [query, state.notes.rawList]);
 
   // const filterNotes = (query) => {

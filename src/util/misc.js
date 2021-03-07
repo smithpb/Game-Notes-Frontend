@@ -10,6 +10,10 @@ export const filterByCharacter = (arr, char) => {
   return arr.filter((e) => e.tags.includes(char));
 };
 
+export const pullProperty = (arr, property) => {
+  return arr.map((el) => el[property]);
+};
+
 export const validatePasswordStructure = (password) => {
   const result = {};
   result.upperCase = /.*[A-Z]/.test(password);

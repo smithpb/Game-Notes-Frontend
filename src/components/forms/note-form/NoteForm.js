@@ -3,13 +3,38 @@ import { AppContext } from "../../../contexts/context";
 import { MainButton } from "../../../styles";
 import { axiosReq } from "../../../util/axios/requests";
 import { ADD_NOTE } from "../../../reducer/dispatch-types";
+import { combineRegEx, makeRegExArr } from "../../../util/text-search/index";
+import { pullProperty } from "../../../util/misc";
 
 function NoteForm() {
   const { state, dispatch } = useContext(AppContext);
   const [note, setNote] = useState("");
   const [quest, setQuest] = useState(false);
+  const [charSearch, setCharSearch] = useState([]);
+  const [taggedChar, setTaggedChar] = useState([]);
   const { characters, campaigns, user } = state;
   const { journey } = campaigns.current;
+  const npcs = characters.rawList;
+  const regex = combineRegEx(charSearch);
+
+  useEffect(() => {
+    const names = pullProperty(npcs, "char_name");
+    const searchArr = makeRegExArr(names);
+    setCharSearch(searchArr);
+  }, [npcs]);
+
+  useEffect(() => {
+    const tags = note.match(regex) || [];
+
+    const matchedChars = tags.reduce((acc, tag) => {
+      const match = npcs.find(({ char_name }) =>
+        char_name.toLowerCase().includes(tag.toLowerCase())
+      );
+      return [...acc, match];
+    }, []);
+    setTaggedChar(matchedChars);
+    // eslint-disable-next-line
+  }, [note]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -22,7 +47,8 @@ function NoteForm() {
       campaign_id: campaigns.current.id,
       location_id: currentLocation.location_id,
     };
-    const res = await axiosReq("post", "/notes", { note: newNote });
+    const tags = pullProperty(taggedChar, "id");
+    const res = await axiosReq("post", "/notes", { note: newNote, tags });
     setNote("");
     setQuest(false);
     dispatch({ type: ADD_NOTE, payload: res.data });
@@ -48,6 +74,9 @@ function NoteForm() {
         />
         <MainButton type="submit">Add</MainButton>
       </form>
+      {taggedChar.map(({ char_name, id }) => (
+        <div key={id}>#{char_name}</div>
+      ))}
     </div>
   );
 }
