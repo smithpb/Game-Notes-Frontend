@@ -4,9 +4,13 @@ import { NoteListContainer } from "../style";
 import NoteForm from "../../forms/note-form/NoteForm";
 
 function NoteDisplay() {
-  const { displayList: notes = [] } = useContext(AppContext).state.notes;
+  const {
+    notes: { displayList: notes = [] },
+    appState,
+  } = useContext(AppContext).state;
   return (
     <NoteListContainer>
+      {appState.isLoading && <p>Loading...</p>}
       {notes.map((note) => (
         <p key={note.id}>{note.text}</p>
       ))}

@@ -32,18 +32,23 @@ export const fetchCampaigns = async (dispatch) => {
 
 export const fetchCampaignData = async (dispatch, id) => {
   const endpoints = ["kingdoms", "locations", "characters", "notes"];
-  const requests = endpoints.map((endpoint) =>
-    axiosReq("get", `/${endpoint}/${id}`)
-  );
 
   dispatch({ type: LOADING });
 
   try {
-    const [kingdoms, locations, characters, notes] = await axios.all(requests);
+    if (!id) throw new Error("There currently is go campaign selected.");
+
+    const [kingdoms, locations, characters, notes] = await axios.all(
+      endpoints.map((endpoint) => axiosReq("get", `/${endpoint}/${id}`))
+    );
     const fullPayload = { kingdoms, locations, characters, notes };
 
     dispatch({ type: DATA_FETCH_SUCCESS, payload: fullPayload });
-  } catch (e) {
-    console.log(e.response);
+  } catch (err) {
+    const message = err.response?.data.message || err.message;
+    dispatch({
+      type: FAILURE,
+      payload: message,
+    });
   }
 };

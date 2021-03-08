@@ -18,7 +18,8 @@ function CampaignItem({ campaign, history }) {
   const selectCampaign = async (id) => {
     console.log("Campaign selected");
     dispatch({ type: CAMPAIGN_SELECT, payload: id });
-    await fetchCampaignData(dispatch, id);
+    localStorage.setItem("camp_id", id);
+    // await fetchCampaignData(dispatch, id);
     history.push("/app/notes");
   };
 

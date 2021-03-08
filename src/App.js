@@ -23,6 +23,7 @@ function App() {
           dispatch({ type: LOGIN_SUCCESS, payload: response.data });
         })
         .catch((err) => {
+          localStorage.clear();
           const errorMsg =
             err.response?.data.message || "No internet connection";
           dispatch({ type: FAILURE, payload: errorMsg });
