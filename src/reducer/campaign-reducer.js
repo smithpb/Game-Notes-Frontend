@@ -27,7 +27,7 @@ export function campaignReducer(state = initialState, action) {
     case CAMPAIGN_ADD_SUCCESS:
       return {
         ...state,
-        rawList: [...state.rawList, action.payload],
+        rawList: [action.payload, ...state.rawList],
       };
     case CAMPAIGN_EDIT_SUCCESS:
       return {

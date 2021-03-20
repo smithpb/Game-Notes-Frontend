@@ -8,7 +8,7 @@ import {
 } from "../../../reducer/dispatch-types";
 import CampaignForm from "../form/CampaignForm";
 import { Campaign } from "./style";
-import { axiosReq, fetchCampaignData } from "../../../util/axios/requests";
+import { axiosReq } from "../../../util/axios/requests";
 
 function CampaignItem({ campaign, history }) {
   const { dispatch } = useContext(AppContext);

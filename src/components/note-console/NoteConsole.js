@@ -15,6 +15,7 @@ function NoteConsole({ history }) {
   useEffect(() => {
     if (!id) history.push("/app");
     fetchCampaignData(dispatch, id);
+    // eslint-disable-next-line
   }, [dispatch, id]);
 
   return (

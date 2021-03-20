@@ -4,7 +4,7 @@ import CampaignItem from "../item/CampaignItem";
 import CampaignForm from "../form/CampaignForm";
 import { CampListContainer } from "./style";
 
-function CampaignList() {
+function CampaignList({ history }) {
   const { campaigns, user } = React.useContext(AppContext).state;
   const [create, setCreate] = useState(false);
   const { rawList } = campaigns;

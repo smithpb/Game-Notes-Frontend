@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import * as palette from "../../styles/variables";
+import { Container } from "../../styles/body";
 
-export const RegisterContainer = styled.div.attrs({
+export const RegisterContainer = styled(Container).attrs({
   "data-testid": "register-component",
 })`
   width: 100%;
