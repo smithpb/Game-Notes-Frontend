@@ -1,3 +1,4 @@
-import { MainButton } from "./buttons";
+// import { MainButton } from "./buttons";
+export * from "./buttons";
 
-export { MainButton };
+// export { MainButton };

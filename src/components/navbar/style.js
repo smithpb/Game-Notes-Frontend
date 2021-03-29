@@ -2,21 +2,24 @@ import styled from "styled-components";
 
 export const NavBar = styled.div.attrs({
   className: "navbar-container",
-  "data-testid": "navbar-component"
+  "data-testid": "navbar-component",
 })`
-  position: fixed;
-  width: 100%;
-  height: 35px;
-  border-bottom: 1px solid #000;
-  display: flex;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: 1fr 6fr 1fr;
   align-items: center;
-  background-color: pink;
+  width: 100%;
+  /* height: 35px; */
+  border-bottom: 1px solid #000;
+  background-color: ${(props) => props.theme.bkgLight};
+
+  p {
+    grid-column: 2 / -2;
+    text-align: center;
+  }
 
   .log-button {
-    position: absolute;
-    right: 5%;
-    top: 50%;
-    transform: translate(0, -50%);
+    grid-column: -2;
+    display: grid;
+    place-items: center;
   }
 `;

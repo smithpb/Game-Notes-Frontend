@@ -11,7 +11,7 @@ export const LoginContainer = styled.div.attrs({
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: "Roboto", sans-serif;
+  /* font-family: "Roboto", sans-serif; */
 
   .error-message {
     text-align: center;

@@ -8,13 +8,13 @@ export const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
   }
   body {
-    width: 100%;
-    height: 100%;
     background-color: ${(props) => props.theme.bkgDark};
+    font-family: "Roboto", sans-serif;
+    color: ${(props) => props.theme.textClr};
   }
 `;
 
 export const Container = styled.div`
-  position: absolute;
-  top: ${palette.navbar_height};
+  display: grid;
+  place-items: center;
 `;

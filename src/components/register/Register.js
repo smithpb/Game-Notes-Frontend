@@ -30,7 +30,7 @@ function Register({ history }) {
     {
       label: "Last Name",
       inputKey: "lastName",
-      // required: true,
+      required: true,
       // inputRef: React.createRef(),
     },
     {

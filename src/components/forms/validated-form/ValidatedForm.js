@@ -1,6 +1,8 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import { AppContext } from "../../../contexts/context";
 import { validatePasswordStructure } from "../../../util/misc";
+import { FormContainer, InputField, PasswordContainer } from "./style";
+import { MainButton } from "../../../styles";
 
 function ValidatedForm({ inputObjects, initialValues, title, submit }) {
   const {
@@ -11,15 +13,21 @@ function ValidatedForm({ inputObjects, initialValues, title, submit }) {
   const [passwordMatch, setPasswordMatch] = useState(true);
   const [isValidPassword, setIsValidPassword] = useState({});
   const { password, confirmPassword } = inputs;
+  const createPassword = "password" in initialValues;
+  const errorRef = useRef();
+
+  errorRef.current = errors;
 
   useEffect(() => {
-    setPasswordMatch(password === confirmPassword);
-  }, [password, confirmPassword]);
+    if (createPassword) setPasswordMatch(password === confirmPassword);
+  }, [password, confirmPassword, createPassword]);
 
   useEffect(() => {
-    const result = validatePasswordStructure(password);
-    setIsValidPassword(result);
-  }, [password]);
+    if (createPassword) {
+      const result = validatePasswordStructure(password);
+      setIsValidPassword(result);
+    }
+  }, [password, createPassword]);
 
   const handleChange = (event) => {
     setInputs({ ...inputs, [event.target.name]: event.target.value });
@@ -35,7 +43,7 @@ function ValidatedForm({ inputObjects, initialValues, title, submit }) {
     const blankInputMsg = "Required field.";
     for (const { inputKey: key, required } of inputObjects) {
       if (inputs[key] === "" && required) {
-        setErrors((prevErrors) => {
+        await setErrors((prevErrors) => {
           return {
             ...prevErrors,
             [key]: prevErrors[key]
@@ -45,20 +53,38 @@ function ValidatedForm({ inputObjects, initialValues, title, submit }) {
         });
       }
     }
-    if (
-      Object.keys(errors).length === 0 &&
-      isValidPassword.all &&
-      passwordMatch
-    ) {
+    if (createPassword) setPasswordErrors();
+    if (Object.keys(errorRef.current).length === 0) {
       submit(inputs);
     }
   };
 
+  const setPasswordErrors = async () => {
+    if (createPassword) {
+      const passwordErrors = [];
+      if (!isValidPassword.all)
+        passwordErrors.push("Password must meet all requirements.");
+      if (!passwordMatch) passwordErrors.push("Passwords do not match.");
+      if (passwordErrors.length > 0) {
+        await setErrors((prevErrors) => {
+          const password =
+            "password" in prevErrors
+              ? [...prevErrors.password, ...passwordErrors]
+              : [...passwordErrors];
+          return {
+            ...prevErrors,
+            password,
+          };
+        });
+      }
+    }
+  };
+
   return (
-    <>
-      <p>{title}</p>
+    <FormContainer>
+      <p className="form-title">{title}</p>
       {appState.error && <p className="invalid">{appState.error}</p>}
-      <form onSubmit={(e) => handleSubmit(e)} data-testid="register-form">
+      <form onSubmit={(e) => handleSubmit(e)} data-testid="form">
         {inputObjects.map((input) => (
           <React.Fragment key={input.inputKey}>
             <ValidatedInput
@@ -78,28 +104,29 @@ function ValidatedForm({ inputObjects, initialValues, title, submit }) {
             )}
           </React.Fragment>
         ))}
-        <button type="submit">Submit</button>
+        <MainButton type="submit">Submit</MainButton>
       </form>
-    </>
+    </FormContainer>
   );
 }
 
 function ValidatedInput({ input, error, handleChange, assignedClass = "" }) {
   const { label, inputKey, type = "text" } = input;
   return (
-    <>
-      <label htmlFor={inputKey}>{label}</label>
-      <span>{error && error.join(" ")}</span>
+    <InputField>
       <input
         id={inputKey}
         className={assignedClass}
         name={inputKey}
+        placeholder=" "
         // ref={inputRef}
         type={type}
         onChange={(e) => handleChange(e)}
         data-testid="register-form-input"
       />
-    </>
+      <label htmlFor={inputKey}>{label}</label>
+      <p className="error-message">{error && error.join(" ")}</p>
+    </InputField>
   );
 }
 
@@ -110,17 +137,19 @@ function PasswordDisplay({ isValidPassword }) {
   };
 
   return (
-    <div>
-      <p className={assignClass(all)}>
-        Password must be 8 characters long and contain one of the following:
+    <PasswordContainer>
+      <p>
+        Password must be{" "}
+        <span className={assignClass(all)}>8 characters long</span> and contain
+        one of each of the following:
       </p>
       <ul>
-        <li className={assignClass(upperCase)}>Uppercase </li>
-        <li className={assignClass(lowerCase)}>Lowercase </li>
-        <li className={assignClass(number)}>Number </li>
-        <li className={assignClass(special)}>Special</li>
+        <div className={assignClass(upperCase)}>Uppercase </div>
+        <div className={assignClass(lowerCase)}>Lowercase </div>
+        <div className={assignClass(number)}>Number </div>
+        <div className={assignClass(special)}>Special</div>
       </ul>
-    </div>
+    </PasswordContainer>
   );
 }
 

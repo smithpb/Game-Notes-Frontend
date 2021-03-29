@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo } from "react";
-// import "./App.css";
+import "./App.css";
 import { GlobalStyle } from "./styles/body";
 import { ThemeProvider } from "styled-components";
 import Navbar from "./components/navbar/Navbar";

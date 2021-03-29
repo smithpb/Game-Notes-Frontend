@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { Login, Register, CampaignList, NoteConsole } from "../components";
-import CampaignForm from "../components/campaigns/form/CampaignForm";
+import NewCampaignWizard from "../components/new-campaign-wizard/NewCampaignWizard";
 
 const ROUTES = [
   {
@@ -40,41 +40,7 @@ const ROUTES = [
         path: "/app/newcampaign",
         key: "NEW_CAMPAIGN_WIZARD",
         exact: false,
-        component: (props) => <RenderRoutes {...props} />,
-        routes: [
-          {
-            path: "/app/newcampaign",
-            key: "NEW_CAMPAIGN_FORM",
-            exact: true,
-            component: (props) => <CampaignForm create {...props} />,
-          },
-          {
-            path: "/app/newcampaign/character",
-            key: "STARTING_CHARACTER_FORM",
-            exact: true,
-            component: () => (
-              <div>
-                <div>Character</div>
-                <div>Character</div>
-                <div>Character</div>
-                <div>Character</div>
-              </div>
-            ),
-          },
-          {
-            path: "/app/newcampaign/location",
-            key: "STARTING_LOCATION_FORM",
-            exact: true,
-            component: () => (
-              <div>
-                <div>Location</div>
-                <div>Location</div>
-                <div>Location</div>
-                <div>Location</div>
-              </div>
-            ),
-          },
-        ],
+        component: NewCampaignWizard,
       },
     ],
   },
